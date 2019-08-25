@@ -12,7 +12,8 @@
     "dev": "concurrently 'webpack --mode development --watch' 'tsc --watch'",
     "build": "concurrently 'webpack --mode production' 'tsc'",
     "test": "jest src --coverage --verbose --runInBand",
-    "test:watch": "jest src --coverage --verbose --runInBand --watch"
+    "test:watch": "jest src --coverage --verbose --runInBand --watch",
+    "coverage": "coveralls < ./coverage/lcov.info"
   },
   "dependencies": {
     "@babel/core": "7.5.0",
@@ -47,6 +48,7 @@
     "@types/webpack-node-externals": "^1.6.3",
     "@typescript-eslint/eslint-plugin": "^1.13.0",
     "@typescript-eslint/parser": "^1.13.0",
+    "coveralls": "^3.0.6",
     "eslint": "^6.1.0",
     "eslint-config-prettier": "^6.0.0",
     "eslint-loader": "^2.2.1",
