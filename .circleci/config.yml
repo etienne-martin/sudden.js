@@ -35,7 +35,7 @@ jobs:
 
   publish:
     docker:
-      - image: circleci/<language>:<version TAG>
+      - image: circleci/node:10.16.0
     steps:
       - checkout
       - run:
