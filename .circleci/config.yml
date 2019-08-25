@@ -41,8 +41,8 @@ jobs:
           name: Publish code coverage
           command: yarn coverage
 
-deployment:
-  production:
-    branch: master
-    commands:
-      - npm publish --dry-run
+  deployment:
+    production:
+      branch: master
+      commands:
+        - npm publish --dry-run
