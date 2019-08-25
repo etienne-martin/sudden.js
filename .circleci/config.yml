@@ -1,7 +1,3 @@
-dependencies:
-  pre:
-    - echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> ~/.npmrc
-
 version: 2
 jobs:
   build:
@@ -41,8 +37,13 @@ jobs:
           name: Publish code coverage
           command: yarn coverage
 
-  deployment:
-    production:
-      branch: master
-      commands:
-        - npm publish --dry-run
+  publish:
+    docker:
+      - image: circleci/<language>:<version TAG>
+    steps:
+      - checkout
+      - run:
+          name: Publish to NPM
+          command: |
+            npm set //registry.npmjs.org/:_authToken=$NPM_TOKEN
+            npm publish
