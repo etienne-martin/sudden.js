@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "module": "esnext",
+    "target": "es5",
+    "lib": ["es6"],
+    "moduleResolution": "node",
+    "skipLibCheck": true,
+    "types": ["node", "jest"],
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "noImplicitAny": true,
+    "noImplicitThis": true,
+    "strictNullChecks": true,
+    "noUnusedLocals": true,
+    "declaration": true,
+    "declarationDir": "./dist",
+    "emitDeclarationOnly": true,
+    "esModuleInterop": true
+  },
+  "exclude": ["node_modules"],
+  "include": ["./src/typings/**/*"],
+  "files": ["./src/index.ts"]
+}
