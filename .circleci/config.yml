@@ -1,9 +1,14 @@
-version: 2
-jobs:
-  build:
+version: 2.1
+
+executors:
+  node-executor:
     docker:
       - image: circleci/node:10.16.0
     working_directory: ~/sudden
+
+jobs:
+  build:
+    executor: node-executor
     steps:
       - checkout
       - restore_cache:
@@ -33,10 +38,17 @@ jobs:
           name: Publish code coverage
           command: yarn coverage
 
+      # Persist the dist folder into the workspace for use in publish job.
+      - persist_to_workspace:
+          root: /
+          paths:
+            - dist
+
   publish:
-    docker:
-      - image: circleci/node:10.16.0
+    executor: node-executor
     steps:
+      - attach_workspace:
+          at: /tmp/workspace
       - checkout
       - run:
           name: Publish to NPM
