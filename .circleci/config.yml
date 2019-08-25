@@ -40,7 +40,7 @@ jobs:
 
       # Persist the dist folder into the workspace for use in publish job.
       - persist_to_workspace:
-          # root: /
+          root: /
           paths:
             - dist
 
