@@ -41,6 +41,7 @@ jobs:
       # Persist the dist folder into the workspace for use in publish job.
       - persist_to_workspace:
           root: ~/sudden
+          # files to persist (relative to the root of the project)
           paths:
             - dist
 
@@ -54,7 +55,7 @@ jobs:
           name: Publish to NPM
           command: |
             npm set //registry.npmjs.org/:_authToken=$NPM_TOKEN
-            npm publish --dry-run
+            npm publish
 
 workflows:
   version: 2
