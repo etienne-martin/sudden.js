@@ -57,6 +57,11 @@ jobs:
 
   publish:
     executor: node-executor
+    filters:
+      branches:
+        only: master
+      tags:
+        only: /v[0-9]+(\.[0-9]+)*/
     steps:
       - checkout
 
@@ -71,7 +76,7 @@ jobs:
 
 workflows:
   version: 2
-  build-and-publish:
+  build-test-and-publish:
     jobs:
       - build
 
@@ -82,6 +87,3 @@ workflows:
       - publish:
           requires:
             - test
-          filters:
-            tags:
-              only: /v[0-9]+(\.[0-9]+)*/
