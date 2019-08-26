@@ -47,9 +47,9 @@ jobs:
   publish:
     executor: node-executor
     steps:
+      - checkout
       - attach_workspace:
           at: ~/sudden
-      - checkout
       - run:
           name: Publish to NPM
           command: |
