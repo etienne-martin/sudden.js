@@ -71,3 +71,5 @@ Write modern javascript
 ## Static endpoints support
 
 Write modern javascript
+
+test
