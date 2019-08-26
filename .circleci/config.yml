@@ -76,6 +76,7 @@ jobs:
           name: Publish to NPM
           command: |
             npm set //registry.npmjs.org/:_authToken=$NPM_TOKEN
+            echo $CIRCLE_TAG
             npm publish
 
 workflows:
@@ -100,5 +101,3 @@ workflows:
           filters:
             branches:
               only: master
-            tags:
-              only: /v.*/
