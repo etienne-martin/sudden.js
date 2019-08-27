@@ -50,7 +50,7 @@ So far, we get:
 
 ## Automatic transpilation
 
-Write modern javascript
+Write modern javascript without spending time configuring webpack and babel.
 
 ## Dynamic route support
 
