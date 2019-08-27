@@ -1,6 +1,6 @@
 {
   "name": "sudden",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "A high-level API framework built on top of express",
   "keywords": [
     "express",
