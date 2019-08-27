@@ -1,6 +1,6 @@
 # Sudden.js
 
-The API framework.
+A high-level API framework built on top of express.
 
 ## How to use
 
@@ -12,7 +12,7 @@ Install it in your project:
 npm install sudden
 ```
 
-and add a script to your package.json like this:
+and add a script to your `package.json` like this:
 
 ```json
 {
@@ -50,7 +50,7 @@ So far, we get:
 
 ## Automatic transpilation
 
-Write modern javascript without spending time configuring webpack and babel.
+Write modern javascript right away without configuring webpack and babel.
 
 ## Dynamic route support
 
@@ -103,9 +103,13 @@ export default (err, req, res, next) => {
 };
 ```
 
-## Built-in TypeScript support
+## TypeScript
 
-Write modern javascript
+Sudden.js provides an integrated TypeScript experience out of the box.
+
+Convert your existing endpoints from `.js` to `.ts` and restart your development server with `sudden dev` (normally `npm run dev`).
+
+Sudden.js will guide you through installing the necessary packages to complete setup.
 
 ## Static endpoints support
 
