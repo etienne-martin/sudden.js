@@ -50,19 +50,58 @@ So far, we get:
 
 ## Automatic transpilation
 
-Write modern javascript
+Write modern javascript without spending time configuring webpack and babel.
 
 ## Dynamic route support
 
 Write modern javascript
 
-## API middlewares
+## Built-in middlewares
 
-Write modern javascript
+```javascript
+export default (req, res) => {
+  const body = req.body; // The request body
+  const query = req.query; // The url querystring
+  const cookies = req.cookies; // The passed cookies
+
+  res.json({
+    body,
+    query,
+    cookies
+  });
+};
+```
+
+## Custom middlewares
+
+You can add your own middleware by extending the default router with a special file called `./endpoints/_router.js` as shown below:
+
+```javascript
+import cors from "cors";
+
+export default router => {
+  router.use(cors());
+};
+```
 
 ## Built-in error handling
 
-Write modern javascript
+Handles 404 automatically catches errors
+
+## Custom error handling
+
+You can add your error handler with a special file called `./endpoints/_error.js` as shown below:
+
+```javascript
+export default (err, req, res, next) => {
+  if (err.message === "some error") {
+    // Do something with the error
+    return;
+  }
+
+  next(err);
+};
+```
 
 ## Built-in TypeScript support
 
@@ -70,6 +109,14 @@ Write modern javascript
 
 ## Static endpoints support
 
-Write modern javascript
+Static endpoints can be created by populating the `./endpoints` folder with json files. The content of those json files will be sent as the response body:
 
-test2
+```json
+{
+  "ping": "pong"
+}
+```
+
+## HTTP verbs
+
+Write modern javascript
