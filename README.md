@@ -2,6 +2,8 @@
 
 A high-level API framework built on top of express.
 
+This project is heavily inspired by [Next.js](https://github.com/zeit/next.js) for its simplicity and ease of use.
+
 ## How to use
 
 ### Setup
@@ -54,7 +56,7 @@ Write modern javascript right away without configuring webpack and babel.
 
 ## Dynamic route support
 
-Write modern javascript
+// TODO: document this thing
 
 ## Built-in middlewares
 
@@ -86,7 +88,7 @@ export default router => {
 
 ## Built-in error handling
 
-Handles 404 automatically catches errors
+404s and execeptions are handled gracefully out of the box. Any unexpected error will return a generic 500 error to avoid leaking sensitive information. The actual error will be logged in the console.
 
 ## Custom error handling
 
@@ -123,4 +125,6 @@ Static endpoints can be created by populating the `./endpoints` folder with json
 
 ## HTTP verbs
 
-Write modern javascript
+By default, files in the `./endpoints` folder will respond to any type of request. Add the HTTP verb as a suffix to your endpoint's name to allow only a specific verb like so `./endpoints/user.post.js`.
+
+The supported HTTP verbs are `get`, `post`, `put`, `delete` and `patch`.
