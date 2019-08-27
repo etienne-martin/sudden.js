@@ -1,6 +1,23 @@
 {
   "name": "sudden",
-  "version": "1.0.3",
+  "version": "1.0.4",
+  "description": "A high-level API framework built on top of express",
+  "keywords": [
+    "express",
+    "api",
+    "http server"
+  ],
+  "author": {
+    "name": "Etienne Martin",
+    "url": "https://github.com/etienne-martin"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/etienne-martin/sudden.js"
+  },
+  "bugs": {
+    "url": "https://github.com/etienne-martin/sudden.js/issues"
+  },
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "license": "MIT",
