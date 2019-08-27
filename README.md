@@ -1,6 +1,8 @@
 # Sudden.js
 
-The API framework.
+A high-level API framework built on top of express.
+
+This project is heavily inspired by [Next.js](https://github.com/zeit/next.js) for its simplicity and ease of use.
 
 ## How to use
 
@@ -12,7 +14,7 @@ Install it in your project:
 npm install sudden
 ```
 
-and add a script to your package.json like this:
+and add a script to your `package.json` like this:
 
 ```json
 {
@@ -50,11 +52,11 @@ So far, we get:
 
 ## Automatic transpilation
 
-Write modern javascript without spending time configuring webpack and babel.
+Write modern javascript right away without configuring webpack and babel.
 
 ## Dynamic route support
 
-Write modern javascript
+// TODO: document this thing
 
 ## Built-in middlewares
 
@@ -86,7 +88,7 @@ export default router => {
 
 ## Built-in error handling
 
-Handles 404 automatically catches errors
+404s and execeptions are handled gracefully out of the box. Any unexpected error will return a generic 500 error to avoid leaking sensitive information. The actual error will be logged in the console.
 
 ## Custom error handling
 
@@ -103,9 +105,13 @@ export default (err, req, res, next) => {
 };
 ```
 
-## Built-in TypeScript support
+## TypeScript
 
-Write modern javascript
+Sudden.js provides an integrated TypeScript experience out of the box.
+
+Convert your existing endpoints from `.js` to `.ts` and restart your development server with `sudden dev` (normally `npm run dev`).
+
+Sudden.js will guide you through installing the necessary packages to complete setup.
 
 ## Static endpoints support
 
@@ -119,4 +125,6 @@ Static endpoints can be created by populating the `./endpoints` folder with json
 
 ## HTTP verbs
 
-Write modern javascript
+By default, files in the `./endpoints` folder will respond to any type of request. Add the HTTP verb as a suffix to your endpoint's name to allow only a specific verb like so `./endpoints/user.post.js`.
+
+The supported HTTP verbs are `get`, `post`, `put`, `delete` and `patch`.
