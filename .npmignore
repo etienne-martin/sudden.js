@@ -6,3 +6,4 @@ jest.config.js
 tsconfig.json
 webpack.config.js
 yarn.lock
+demo.gif

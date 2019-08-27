@@ -4,6 +4,8 @@ A high-level API framework built on top of express.
 
 This project is heavily inspired by [Next.js](https://github.com/zeit/next.js) for its simplicity and ease of use.
 
+![demo](https://raw.githubusercontent.com/etienne-martin/sudden.js/master/demo.gif)
+
 ## How to use
 
 ### Setup
