@@ -66,7 +66,7 @@ export const setRoutes = async (
         const requestHandler = module.default;
 
         if (fileExtension === "json") {
-          newRouter.get(routeName, (req, res) => {
+          newRouter[method](routeName, (req, res) => {
             res.json(module);
           });
 
@@ -115,6 +115,7 @@ export const setRoutes = async (
     // Custom error handling
     if (errorMiddlewareModule) {
       try {
+        // TODO: automatically call next(err) so that the custom error handler doesn't have to.
         newRouter.use(errorMiddlewareModule().default);
       } catch (err) {
         logger.error(err);

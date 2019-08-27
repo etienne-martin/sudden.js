@@ -76,6 +76,7 @@ export const devTask = async ({
       // https://stackoverflow.com/a/48361075/1123556
       await touch(filePath);
 
+      // TODO: change this, simply check if the file extension ends with ".ts" instead of calling `containsTypeScript()`
       if (!hasTypeScript && (await containsTypeScript(endpointsDir))) {
         logger.warn(
           `It looks like you're trying to use TypeScript. Restart the server to enable type checking.`

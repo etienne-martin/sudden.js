@@ -27,8 +27,8 @@ export const getSourceDirFromProjectDirTaskAndArguments = (
 
 export const getTaskFromArguments = (
   args: any[]
-): "build" | "start" | undefined => {
-  return ["build", "start"].includes(args[0]) ? args[0] : undefined;
+): "build" | "start" | "dev" => {
+  return ["build", "start", "dev"].includes(args[0]) ? args[0] : "dev";
 };
 
 export const getPortFromOptions = (options: { [key: string]: any }) => {
