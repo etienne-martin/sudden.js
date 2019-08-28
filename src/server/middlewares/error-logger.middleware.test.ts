@@ -11,17 +11,9 @@ test("should log errors to the console", () => {
     json: jest.fn()
   };
 
-  errorLoggerMiddleware(
-    error,
-    mockedReq,
-    mockedRes,
-    () => undefined
-  );
+  errorLoggerMiddleware(error, mockedReq, mockedRes, () => undefined);
 
-  expect(consoleSpy).toHaveBeenCalledWith(
-    colors.red("[ error ]"),
-    error
-  );
+  expect(consoleSpy).toHaveBeenCalledWith(colors.red("[ error ]"), error);
 
   consoleSpy.mockRestore();
 });
