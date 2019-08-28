@@ -19,6 +19,9 @@ export const errorMiddleware = (
   res: express.Response,
   next: express.NextFunction // eslint-disable-line
 ) => {
+  // Do nothing if the request has already been answered
+  if (res.headersSent) return;
+
   if ((err as SuddenApiError).type === "SuddenApiError") {
     return handleError(err as SuddenApiError, res);
   }

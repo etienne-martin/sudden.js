@@ -11,6 +11,5 @@ export const errorLoggerMiddleware = (
   next: express.NextFunction
 ) => {
   logger.error(err);
-
   next(err);
 };

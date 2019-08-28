@@ -97,13 +97,10 @@ export default router => {
 You can add your error handler with a special file called `./endpoints/_error.js` as shown below:
 
 ```javascript
-export default (err, req, res, next) => {
+export default (err, req, res) => {
   if (err.message === "some error") {
     // Do something with the error
-    return;
   }
-
-  next(err);
 };
 ```
 

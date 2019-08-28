@@ -115,8 +115,17 @@ export const setRoutes = async (
     // Custom error handling
     if (errorMiddlewareModule) {
       try {
-        // TODO: automatically call next(err) so that the custom error handler doesn't have to.
-        newRouter.use(errorMiddlewareModule().default);
+        newRouter.use(
+          (
+            err: Error,
+            req: express.Request,
+            res: express.Response,
+            next: express.NextFunction
+          ) => {
+            errorMiddlewareModule().default(err, req, res);
+            next(err);
+          }
+        );
       } catch (err) {
         logger.error(err);
 
