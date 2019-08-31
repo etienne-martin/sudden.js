@@ -5,7 +5,6 @@ A high-level API framework built on top of express.
 This project is heavily inspired by [Next.js](https://github.com/zeit/next.js) for its simplicity and ease of use.
 
 [![Coveralls github](https://img.shields.io/coveralls/github/etienne-martin/sudden.js.svg?style=for-the-badge)](https://coveralls.io/github/etienne-martin/sudden.js)
-[![CircleCI build](https://img.shields.io/circleci/project/github/RedSparr0w/node-csgo-parser.svg?style=for-the-badge)](https://circleci.com/gh/etienne-martin/sudden.js)
 [![node version](https://img.shields.io/node/v/sudden.svg?style=for-the-badge)](https://www.npmjs.com/package/sudden)
 [![npm version](https://img.shields.io/npm/v/sudden.svg?style=for-the-badge)](https://www.npmjs.com/package/sudden)
 [![npm monthly downloads](https://img.shields.io/npm/dm/sudden.svg?style=for-the-badge)](https://www.npmjs.com/package/sudden)
