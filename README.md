@@ -6,7 +6,6 @@ This project is heavily inspired by [Next.js](https://github.com/zeit/next.js) f
 
 [![Coveralls github](https://img.shields.io/coveralls/github/etienne-martin/sudden.js.svg?style=for-the-badge&labelColor=000000)](https://coveralls.io/github/etienne-martin/sudden.js)
 [![MIT License](https://img.shields.io/npm/l/sudden.svg?style=for-the-badge&labelColor=000000)](https://github.com/etienne-martin/sudden.js/blob/master/LICENSE)
-[![node version](https://img.shields.io/node/v/sudden.svg?style=for-the-badge&labelColor=000000)](https://www.npmjs.com/package/sudden)
 [![npm version](https://img.shields.io/npm/v/sudden.svg?style=for-the-badge&labelColor=000000)](https://www.npmjs.com/package/sudden)
 [![npm monthly downloads](https://img.shields.io/npm/dm/sudden.svg?style=for-the-badge&labelColor=000000)](https://www.npmjs.com/package/sudden)
 
