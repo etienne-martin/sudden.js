@@ -23,7 +23,17 @@ module.exports = (env, argv) => {
             {
               loader: "babel-loader",
               options: {
-                presets: ["@babel/typescript"]
+                presets: [
+                  "@babel/typescript",
+                  [
+                    "@babel/preset-env",
+                    {
+                      targets: {
+                        node: "8"
+                      }
+                    }
+                  ]
+                ]
               }
             },
             {

@@ -130,7 +130,17 @@ export const build = async ({
               {
                 loader: "babel-loader",
                 options: {
-                  presets: [eval("require").resolve("@babel/preset-typescript")]
+                  presets: [
+                    eval("require").resolve("@babel/preset-typescript"),
+                    [
+                      eval("require").resolve("@babel/preset-env"),
+                      {
+                        targets: {
+                          node: "8"
+                        }
+                      }
+                    ]
+                  ]
                 }
               }
             ],
