@@ -19,7 +19,7 @@
     "url": "https://github.com/etienne-martin/sudden.js/issues"
   },
   "engines": {
-    "node": ">= 8"
+    "node": ">= 8.0.0"
   },
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
