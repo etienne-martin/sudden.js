@@ -65,6 +65,16 @@ export const setRoutes = async (
         const module = getModule();
         const requestHandler = module.default;
 
+        if (
+          newRouter.stack.find(
+            ({ route }) =>
+              route.path === routeName &&
+              (route.methods[method] || method === "all")
+          )
+        ) {
+          throw `This route is conflicting with another route.`;
+        }
+
         if (fileExtension === "json") {
           newRouter[method](routeName, (req, res) => {
             res.json(module);

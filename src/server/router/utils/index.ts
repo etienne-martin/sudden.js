@@ -58,7 +58,6 @@ const getMethodFromFileName = (fileName: string): HttpMethod | undefined => {
   }
 };
 
-// TODO: show error for conflicting endpoints
 export const getCompiledEndpoints = (
   outputDir: string
 ): Promise<CompiledEndpoints> =>
