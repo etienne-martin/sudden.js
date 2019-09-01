@@ -55,8 +55,10 @@ export const build = async ({
     // Skip build if there's no file to compile
     if (Object.entries(entry).length === 0) return resolve();
 
-    const webpackPlugins = [
-      new BuildManifestPlugin(),
+    const webpackPlugins: webpack.Plugin[] = [
+      new BuildManifestPlugin({
+        version: require("../../package.json").version
+      }),
       new WebpackLoggerPlugin({
         logger
       })

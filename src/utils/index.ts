@@ -5,3 +5,4 @@ export { unescapeUnicode } from "./unicode";
 export { detectPackageManager } from "./package-manager";
 export { logger } from "./logger";
 export { fs } from "./fs";
+export { semVer } from "./semver";
