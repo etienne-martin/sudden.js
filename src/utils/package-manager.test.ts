@@ -20,7 +20,7 @@ test("should detect npm", async () => {
 });
 
 test("should return undefined if nothing is detected", async () => {
-  process.env.npm_config_registry = undefined;
+  delete process.env.npm_config_registry;
 
   expect(await detectPackageManager()).toBe(null);
 });
