@@ -40,3 +40,7 @@ export const getPortFromOptions = (options: { [key: string]: any }) => {
 export const getFrameworkDirFromNodeProcess = (nodeProcess: NodeJS.Process) => {
   return path.resolve(nodeProcess.mainModule!.filename, "../../"); // eslint-disable-line
 };
+
+export const getRuntimeVersionFromPackageJson = (frameworkDir: string) => {
+  return eval("require")(path.resolve(frameworkDir, "package.json")).version;
+};

@@ -4,6 +4,7 @@ import { devTask } from "./dev.task";
 
 interface TaskRunnerOptions {
   task: string | undefined;
+  runtimeVersion: string;
   frameworkDir: string;
   projectDir: string;
   sourceDir: string;

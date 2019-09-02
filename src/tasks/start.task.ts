@@ -3,15 +3,19 @@ import { getBuildManifest } from "../build/manifest";
 import { serve, setRoutes } from "../server/server";
 
 interface StartTaskOptions {
+  runtimeVersion: string;
   outputDir: string;
   port?: number;
 }
 
-export const startTask = async ({ outputDir, port }: StartTaskOptions) => {
+export const startTask = async ({
+  outputDir,
+  port,
+  runtimeVersion
+}: StartTaskOptions) => {
   logger.wait(`starting the server ...`);
 
   const buildManifest = getBuildManifest(outputDir);
-  const runtimeVersion = semVer.parse(require("../../package.json").version);
 
   if (
     !buildManifest ||
@@ -24,11 +28,11 @@ export const startTask = async ({ outputDir, port }: StartTaskOptions) => {
     return process.exit(1);
   }
 
-  const buildVersion = semVer.parse(buildManifest.version);
+  const buildRuntimeVersion = semVer.parse(buildManifest.runtimeVersion);
 
-  if (!buildVersion.isCompatibleWith(runtimeVersion)) {
+  if (!buildRuntimeVersion.isCompatibleWith(semVer.parse(runtimeVersion))) {
     logger.error(
-      `The build version of your API (${buildVersion.toString()}) is not compatible with sudden@${runtimeVersion.toString()}`
+      `The build version of your API (${buildRuntimeVersion.toString()}) is not compatible with sudden@${runtimeVersion}`
     );
 
     return process.exit(1);

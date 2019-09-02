@@ -10,6 +10,7 @@ import { serve, setRoutes } from "../server/server";
 import { containsTypeScript } from "../build/utils";
 
 interface DevTaskOptions {
+  runtimeVersion: string;
   frameworkDir: string;
   projectDir: string;
   sourceDir: string;
@@ -18,6 +19,7 @@ interface DevTaskOptions {
 }
 
 export const devTask = async ({
+  runtimeVersion,
   frameworkDir,
   projectDir,
   sourceDir,
@@ -46,6 +48,7 @@ export const devTask = async ({
   await build({
     mode: "development",
     context: frameworkDir,
+    runtimeVersion,
     projectDir,
     outputDir,
     entry: {

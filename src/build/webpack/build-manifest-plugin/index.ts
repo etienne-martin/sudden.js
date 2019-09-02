@@ -4,18 +4,18 @@ export interface BuildManifest {
   created: number;
   mode: "development" | "production" | "none" | undefined;
   hash: string;
-  version: string;
+  runtimeVersion: string;
 }
 
 interface Options {
-  version: string;
+  runtimeVersion: string;
 }
 
 export class BuildManifestPlugin {
-  private version: string;
+  private runtimeVersion: string;
 
-  public constructor({ version }: Options) {
-    this.version = version;
+  public constructor({ runtimeVersion }: Options) {
+    this.runtimeVersion = runtimeVersion;
   }
 
   public apply(compiler: webpack.Compiler) {
@@ -27,7 +27,7 @@ export class BuildManifestPlugin {
             created: +new Date(),
             mode: compiler.options.mode,
             hash: compilation.hash || "",
-            version: this.version
+            runtimeVersion: this.runtimeVersion
           };
 
           const stringifiedManifest = JSON.stringify(manifest, null, 2);

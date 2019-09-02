@@ -27,6 +27,7 @@ interface Logger {
 interface BuildOptions {
   mode: "production" | "development";
   context: string;
+  runtimeVersion: string;
   projectDir: string;
   outputDir: string;
   entry: {
@@ -42,6 +43,7 @@ interface BuildOptions {
 export const build = async ({
   mode,
   context,
+  runtimeVersion,
   projectDir,
   outputDir,
   entry,
@@ -57,7 +59,7 @@ export const build = async ({
 
     const webpackPlugins: webpack.Plugin[] = [
       new BuildManifestPlugin({
-        version: require("../../package.json").version
+        runtimeVersion
       }),
       new WebpackLoggerPlugin({
         logger

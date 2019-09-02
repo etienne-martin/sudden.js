@@ -9,7 +9,8 @@ import {
   getOutputDirFromProjectDir,
   getPortFromOptions,
   getSourceDirFromProjectDirTaskAndArguments,
-  getTaskFromArguments
+  getTaskFromArguments,
+  getRuntimeVersionFromPackageJson
 } from "./index.getters";
 
 // Export types
@@ -22,6 +23,7 @@ export type NextFunction = express.NextFunction;
 const projectDir = process.cwd();
 const outputDir = getOutputDirFromProjectDir(projectDir);
 const frameworkDir = getFrameworkDirFromNodeProcess(process);
+const runtimeVersion = getRuntimeVersionFromPackageJson(frameworkDir);
 const args = getArgsFromNodeProcess(process);
 const options = getOptionsFromNodeProcess(process);
 const task = getTaskFromArguments(args);
@@ -45,6 +47,7 @@ process.on("unhandledRejection", err => {
 (async () => {
   await taskRunner({
     task,
+    runtimeVersion,
     frameworkDir,
     projectDir,
     sourceDir,
