@@ -1,7 +1,7 @@
 interface SemVer {
-  major: string;
-  minor: string;
-  patch: string;
+  major: number;
+  minor: number;
+  patch: number;
 }
 
 const isCompatible = (buildVersion: SemVer, runtimeVersion: SemVer) => {
@@ -12,10 +12,13 @@ const isCompatible = (buildVersion: SemVer, runtimeVersion: SemVer) => {
 };
 
 const parse = (versionString: string) => {
-  const chunks = versionString.split(".");
-  const major = chunks[0].trim();
-  const minor = chunks[1].trim();
-  const patch = chunks[2].trim();
+  const [major, minor, patch] = versionString
+    .split(".")
+    .map(chunk => parseInt(chunk, 10));
+
+  if (isNaN(major) || isNaN(minor) || isNaN(patch)) {
+    throw "Invalid version string";
+  }
 
   const parsedVersion: SemVer = {
     major,
