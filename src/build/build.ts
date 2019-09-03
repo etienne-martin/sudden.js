@@ -4,7 +4,7 @@ import ForkTsCheckerWebpackPlugin from "fork-ts-checker-webpack-plugin";
 import path from "path";
 
 import { BuildManifestPlugin } from "./webpack/build-manifest-plugin/build-manifest-plugin";
-import { LoggerPlugin } from "./webpack/logger-plugin";
+import { LoggerPlugin } from "./webpack/logger-plugin/logger-plugin";
 import {
   getCreatedTsconfigMessage,
   getMissingTypeScriptDependenciesMessage
