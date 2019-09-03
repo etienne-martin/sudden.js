@@ -1,6 +1,10 @@
 import webpack from "webpack";
 import colors from "colors/safe";
 
+interface PluginOptions {
+  logger: Logger;
+}
+
 interface Logger {
   wait: (...messages: any[]) => void;
   error: (...messages: any[]) => void;
@@ -13,7 +17,7 @@ interface Logger {
 export class WebpackLoggerPlugin {
   private readonly logger: Logger;
 
-  public constructor({ logger }: { logger: Logger }) {
+  public constructor({ logger }: PluginOptions) {
     this.logger = logger;
   }
 
@@ -29,6 +33,7 @@ export class WebpackLoggerPlugin {
       const changedTimes = watcher.mtimes;
 
       Object.keys(changedTimes).forEach(file => {
+        // TODO: output non-absolute path
         logger.event(`file change detected: ${file}`);
       });
     });
