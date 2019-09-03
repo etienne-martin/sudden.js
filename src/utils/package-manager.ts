@@ -16,7 +16,7 @@ export const detectPackageManager = (): "yarn" | "npm" | null => {
 
 export const getPackageJson = (packageDir: string) => {
   try {
-    return eval("require")(path.resolve(packageDir, "package.json"))
+    return eval("require")(path.resolve(packageDir, "package.json"));
   } catch {
     throw "Cannot find package.json";
   }
