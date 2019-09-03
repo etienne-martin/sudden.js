@@ -1,11 +1,8 @@
 import { createEntrypoint } from "./entrypoint";
-import { fs, rmRf } from "../utils";
+import { fs } from "../utils";
 
 test("should create an entrypoint file", async () => {
-  const outputDir = "/tmp/.sudden";
+  const entrypointPath = await createEntrypoint("/tmp/fakeSourceDir");
 
-  await rmRf(outputDir);
-  await createEntrypoint("/tmp/fakeSourceDir");
-
-  expect(await fs.exists(`${outputDir}/entrypoint.ts`)).toBe(true);
+  expect(await fs.exists(entrypointPath)).toBe(true);
 });
