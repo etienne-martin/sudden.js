@@ -43,7 +43,6 @@ export const devTask = async ({
   const hasTypeScript = await containsTypeScript(endpointsDir);
 
   await rmRf(outputDir);
-  await createEntrypoint(sourceDir, outputDir);
 
   await build({
     mode: "development",
@@ -51,9 +50,7 @@ export const devTask = async ({
     runtimeVersion,
     projectDir,
     outputDir,
-    entry: {
-      endpoints: path.resolve(outputDir, "entrypoint.ts")
-    },
+    entry: await createEntrypoint(sourceDir),
     typescript: hasTypeScript,
     logger,
     watch: true,

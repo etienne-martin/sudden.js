@@ -31,7 +31,6 @@ export const buildTask = async ({
   }
 
   await rmRf(outputDir);
-  await createEntrypoint(sourceDir, outputDir);
 
   try {
     await build({
@@ -40,9 +39,7 @@ export const buildTask = async ({
       runtimeVersion,
       projectDir,
       outputDir,
-      entry: {
-        endpoints: path.resolve(outputDir, "entrypoint.ts")
-      },
+      entry: await createEntrypoint(sourceDir),
       typescript: await containsTypeScript(endpointsDir),
       logger
     });

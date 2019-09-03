@@ -30,9 +30,7 @@ interface BuildOptions {
   runtimeVersion: string;
   projectDir: string;
   outputDir: string;
-  entry: {
-    [key: string]: string;
-  };
+  entry: string;
   typescript?: boolean;
   logger: Logger;
   watch?: boolean;
@@ -103,9 +101,7 @@ export const build = async ({
 
     if (watch) {
       webpackPlugins.push(
-        new webpack.WatchIgnorePlugin([
-          path.resolve(outputDir, "entrypoint.ts")
-        ])
+        new webpack.WatchIgnorePlugin([entry])
       );
     }
 
@@ -113,7 +109,9 @@ export const build = async ({
       mode,
       target: "node",
       context,
-      entry,
+      entry: {
+        endpoints: entry
+      },
       node: {
         __filename: true,
         __dirname: true

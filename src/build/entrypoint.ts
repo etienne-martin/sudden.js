@@ -1,16 +1,15 @@
 import path from "path";
+import os from "os";
 
 import { fs } from "../utils";
 
-export const createEntrypoint = async (
-  sourceDir: string,
-  outputDir: string
-) => {
+export const createEntrypoint = async (sourceDir: string) => {
   const endpointsDir = path.resolve(sourceDir, "endpoints");
   const entrypoint = `export default (require as any).context('${endpointsDir}', true, /\\.(js|ts|json)$/);`;
-  const entrypointPath = path.resolve(outputDir, "entrypoint.ts");
+  const tmpEntrypointDir = await fs.mkdtemp(path.join(os.tmpdir(), ".sudden-"));
+  const entrypointPath = path.resolve(tmpEntrypointDir, "entrypoint.ts");
 
-  // Write file to disk
-  await fs.mkdir(outputDir, { recursive: true });
   await fs.writeFile(entrypointPath, entrypoint);
+
+  return await fs.realpath(entrypointPath);
 };
