@@ -1,4 +1,4 @@
-import { detectPackageManager, getPackageJson } from "./package-manager";
+import { detectPackageManager, getPackageJson } from "./package";
 import { fs } from "./fs";
 import { rmRf } from "./rm-rf";
 
