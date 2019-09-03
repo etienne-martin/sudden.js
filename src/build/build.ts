@@ -100,9 +100,7 @@ export const build = async ({
     }
 
     if (watch) {
-      webpackPlugins.push(
-        new webpack.WatchIgnorePlugin([entry])
-      );
+      webpackPlugins.push(new webpack.WatchIgnorePlugin([entry]));
     }
 
     const compiler = webpack({
