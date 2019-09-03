@@ -1,6 +1,6 @@
 import path from "path";
 
-import { BuildManifest } from "./webpack/build-manifest-plugin";
+import { BuildManifest } from "./webpack/build-manifest-plugin/build-manifest-plugin";
 import { noCacheRequire } from "../utils";
 
 export const getBuildManifest = (

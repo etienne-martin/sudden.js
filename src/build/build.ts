@@ -3,8 +3,8 @@ import nodeExternals from "webpack-node-externals";
 import ForkTsCheckerWebpackPlugin from "fork-ts-checker-webpack-plugin";
 import path from "path";
 
-import { BuildManifestPlugin } from "./webpack/build-manifest-plugin";
-import { WebpackLoggerPlugin } from "./webpack/logger-plugin";
+import { BuildManifestPlugin } from "./webpack/build-manifest-plugin/build-manifest-plugin";
+import { LoggerPlugin } from "./webpack/logger-plugin";
 import {
   getCreatedTsconfigMessage,
   getMissingTypeScriptDependenciesMessage
@@ -59,7 +59,7 @@ export const build = async ({
       new BuildManifestPlugin({
         runtimeVersion
       }),
-      new WebpackLoggerPlugin({
+      new LoggerPlugin({
         logger
       })
     ];

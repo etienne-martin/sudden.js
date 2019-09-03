@@ -14,7 +14,7 @@ interface Logger {
   event: (...messages: any[]) => void;
 }
 
-export class WebpackLoggerPlugin {
+export class LoggerPlugin {
   private readonly logger: Logger;
 
   public constructor({ logger }: PluginOptions) {
