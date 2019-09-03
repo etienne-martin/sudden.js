@@ -32,7 +32,7 @@ export const startTask = async ({
 
   if (!buildRuntimeVersion.isCompatibleWith(semVer.parse(runtimeVersion))) {
     logger.error(
-      `The build version of your API (${buildRuntimeVersion.toString()}) is not compatible with sudden@${runtimeVersion}`
+      `The build version of your API (${buildRuntimeVersion.toString()}) is incompatible with sudden@${runtimeVersion}`
     );
 
     return process.exit(1);

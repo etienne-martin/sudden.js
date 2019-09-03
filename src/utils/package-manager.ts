@@ -1,3 +1,5 @@
+import path from "path";
+
 export const detectPackageManager = (): "yarn" | "npm" | null => {
   const npmConfigRegistry = process.env.npm_config_registry || "";
 
@@ -10,4 +12,12 @@ export const detectPackageManager = (): "yarn" | "npm" | null => {
   }
 
   return null;
+};
+
+export const getPackageJson = (packageDir: string) => {
+  try {
+    return eval("require")(path.resolve(packageDir, "package.json"))
+  } catch {
+    throw "Cannot find package.json";
+  }
 };

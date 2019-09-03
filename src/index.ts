@@ -1,7 +1,7 @@
 import express from "express";
 
 import { taskRunner } from "./tasks/task-runner";
-import { logger } from "./utils";
+import { logger, getPackageJson } from "./utils";
 import {
   getArgsFromNodeProcess,
   getFrameworkDirFromNodeProcess,
@@ -9,8 +9,7 @@ import {
   getOutputDirFromProjectDir,
   getPortFromOptions,
   getSourceDirFromProjectDirTaskAndArguments,
-  getTaskFromArguments,
-  getRuntimeVersionFromPackageJson
+  getTaskFromArguments
 } from "./index.getters";
 
 // Export types
@@ -23,7 +22,7 @@ export type NextFunction = express.NextFunction;
 const projectDir = process.cwd();
 const outputDir = getOutputDirFromProjectDir(projectDir);
 const frameworkDir = getFrameworkDirFromNodeProcess(process);
-const runtimeVersion = getRuntimeVersionFromPackageJson(frameworkDir);
+const runtimeVersion = getPackageJson(frameworkDir).version;
 const args = getArgsFromNodeProcess(process);
 const options = getOptionsFromNodeProcess(process);
 const task = getTaskFromArguments(args);
