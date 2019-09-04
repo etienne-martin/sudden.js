@@ -33,11 +33,7 @@ export const devTask = async ({
   logger.wait("starting the development server ...");
 
   if (!(await fs.exists(endpointsDir))) {
-    logger.error(
-      `Couldn't find a 'endpoints' directory. Please create one under ${sourceDir}`
-    );
-
-    return process.exit(1);
+    throw `Couldn't find a 'endpoints' directory. Please create one under ${sourceDir}`;
   }
 
   const hasTypeScript = await containsTypeScript(endpointsDir);

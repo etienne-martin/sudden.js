@@ -68,7 +68,6 @@ export const setRoutes = async (
         const module = getModule();
         const requestHandler = module.default;
 
-        // TODO: throw error for conflicting endpoints when building the API
         if (
           newRouter.stack.find(
             ({ route }) =>
