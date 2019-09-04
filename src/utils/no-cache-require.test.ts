@@ -6,6 +6,8 @@ const createModule = async (content: number) => {
 };
 
 test("should not pull the module from cache", async () => {
+  jest.resetModules();
+
   await createModule(1);
 
   expect(noCacheRequire("/tmp/dummy-module")).toBe(1);

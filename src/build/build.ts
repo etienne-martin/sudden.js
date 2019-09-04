@@ -3,8 +3,8 @@ import nodeExternals from "webpack-node-externals";
 import ForkTsCheckerWebpackPlugin from "fork-ts-checker-webpack-plugin";
 import path from "path";
 
-import { BuildManifestPlugin } from "./webpack/build-manifest-plugin";
-import { WebpackLoggerPlugin } from "./webpack/logger-plugin";
+import { BuildManifestPlugin } from "./webpack/build-manifest-plugin/build-manifest-plugin";
+import { LoggerPlugin } from "./webpack/logger-plugin/logger-plugin";
 import {
   getCreatedTsconfigMessage,
   getMissingTypeScriptDependenciesMessage
@@ -27,11 +27,10 @@ interface Logger {
 interface BuildOptions {
   mode: "production" | "development";
   context: string;
+  runtimeVersion: string;
   projectDir: string;
   outputDir: string;
-  entry: {
-    [key: string]: string;
-  };
+  entry: string;
   typescript?: boolean;
   logger: Logger;
   watch?: boolean;
@@ -42,6 +41,7 @@ interface BuildOptions {
 export const build = async ({
   mode,
   context,
+  runtimeVersion,
   projectDir,
   outputDir,
   entry,
@@ -55,9 +55,11 @@ export const build = async ({
     // Skip build if there's no file to compile
     if (Object.entries(entry).length === 0) return resolve();
 
-    const webpackPlugins = [
-      new BuildManifestPlugin(),
-      new WebpackLoggerPlugin({
+    const webpackPlugins: webpack.Plugin[] = [
+      new BuildManifestPlugin({
+        runtimeVersion
+      }),
+      new LoggerPlugin({
         logger
       })
     ];
@@ -98,18 +100,16 @@ export const build = async ({
     }
 
     if (watch) {
-      webpackPlugins.push(
-        new webpack.WatchIgnorePlugin([
-          path.resolve(outputDir, "entrypoint.ts")
-        ])
-      );
+      webpackPlugins.push(new webpack.WatchIgnorePlugin([entry]));
     }
 
     const compiler = webpack({
       mode,
       target: "node",
       context,
-      entry,
+      entry: {
+        endpoints: entry
+      },
       node: {
         __filename: true,
         __dirname: true

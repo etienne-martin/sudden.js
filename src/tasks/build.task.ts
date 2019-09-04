@@ -6,6 +6,7 @@ import { build } from "../build/build";
 import { containsTypeScript } from "../build/utils";
 
 interface BuildTaskOptions {
+  runtimeVersion: string;
   frameworkDir: string;
   projectDir: string;
   sourceDir: string;
@@ -13,6 +14,7 @@ interface BuildTaskOptions {
 }
 
 export const buildTask = async ({
+  runtimeVersion,
   frameworkDir,
   projectDir,
   sourceDir,
@@ -29,17 +31,15 @@ export const buildTask = async ({
   }
 
   await rmRf(outputDir);
-  await createEntrypoint(sourceDir, outputDir);
 
   try {
     await build({
       mode: "production",
       context: frameworkDir,
+      runtimeVersion,
       projectDir,
       outputDir,
-      entry: {
-        endpoints: path.resolve(outputDir, "entrypoint.ts")
-      },
+      entry: await createEntrypoint(sourceDir),
       typescript: await containsTypeScript(endpointsDir),
       logger
     });

@@ -10,7 +10,8 @@ module.exports = {
     "/coverage/",
     "/dist/",
     "/typings/",
-    "/bin/"
+    "/bin/",
+    "/src/index.ts"
   ],
   coverageThreshold: {
     global: {

@@ -10,6 +10,7 @@ import { serve, setRoutes } from "../server/server";
 import { containsTypeScript } from "../build/utils";
 
 interface DevTaskOptions {
+  runtimeVersion: string;
   frameworkDir: string;
   projectDir: string;
   sourceDir: string;
@@ -18,6 +19,7 @@ interface DevTaskOptions {
 }
 
 export const devTask = async ({
+  runtimeVersion,
   frameworkDir,
   projectDir,
   sourceDir,
@@ -41,16 +43,14 @@ export const devTask = async ({
   const hasTypeScript = await containsTypeScript(endpointsDir);
 
   await rmRf(outputDir);
-  await createEntrypoint(sourceDir, outputDir);
 
   await build({
     mode: "development",
     context: frameworkDir,
+    runtimeVersion,
     projectDir,
     outputDir,
-    entry: {
-      endpoints: path.resolve(outputDir, "entrypoint.ts")
-    },
+    entry: await createEntrypoint(sourceDir),
     typescript: hasTypeScript,
     logger,
     watch: true,
@@ -69,22 +69,18 @@ export const devTask = async ({
     persistent: true
   });
 
-  watcher
-    .on("add", async filePath => {
-      // Because of a bug with webstorm/intellij we must "touch" new file so that webpack's watcher detects changes
-      // https://webpack.js.org/configuration/watch/#saving-in-webstorm
-      // https://stackoverflow.com/a/48361075/1123556
-      await touch(filePath);
+  watcher.on("add", async filePath => {
+    // Because of a bug with webstorm/intellij we must "touch" new file so that webpack's watcher detects changes
+    // https://webpack.js.org/configuration/watch/#saving-in-webstorm
+    // https://stackoverflow.com/a/48361075/1123556
+    await touch(filePath);
 
-      if (!hasTypeScript && filePath.toLowerCase().endsWith(".ts")) {
-        logger.warn(
-          `It looks like you're trying to use TypeScript. Restart the server to enable type checking.`
-        );
-      }
-    })
-    .on("unlink", filePath => {
-      logger.event(`remove endpoint: ${filePath}`);
-    });
+    if (!hasTypeScript && filePath.toLowerCase().endsWith(".ts")) {
+      logger.warn(
+        `It looks like you're trying to use TypeScript. Restart the server to enable type checking.`
+      );
+    }
+  });
 
   await serve({
     mode: "development",

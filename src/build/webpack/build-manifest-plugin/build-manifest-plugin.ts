@@ -4,9 +4,20 @@ export interface BuildManifest {
   created: number;
   mode: "development" | "production" | "none" | undefined;
   hash: string;
+  runtimeVersion: string;
+}
+
+interface Options {
+  runtimeVersion: string;
 }
 
 export class BuildManifestPlugin {
+  private runtimeVersion: string;
+
+  public constructor({ runtimeVersion }: Options) {
+    this.runtimeVersion = runtimeVersion;
+  }
+
   public apply(compiler: webpack.Compiler) {
     compiler.hooks.emit.tapPromise(
       "BuildManifestPlugin",
@@ -15,7 +26,8 @@ export class BuildManifestPlugin {
           const manifest: BuildManifest = {
             created: +new Date(),
             mode: compiler.options.mode,
-            hash: compilation.hash || ""
+            hash: compilation.hash || "",
+            runtimeVersion: this.runtimeVersion
           };
 
           const stringifiedManifest = JSON.stringify(manifest, null, 2);
