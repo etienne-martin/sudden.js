@@ -10,6 +10,7 @@ import { securityMiddleware } from "./middlewares/security.middleware";
 import { corsMiddleware } from "./middlewares/cors.middleware";
 import { convertFileNameToRoute, getCompiledEndpoints } from "./router/utils";
 import { logger } from "../utils";
+import { findConflictingEndpoints } from "./router/utils/route-conflict";
 
 interface ServerOptions {
   port?: number;
@@ -46,6 +47,19 @@ export const setRoutes = async (
 
     const newRouter = express.Router();
     const endpoints = await getCompiledEndpoints(outputDir);
+    const conflictingEndpoints = findConflictingEndpoints(endpoints);
+
+    if (conflictingEndpoints.length > 0) {
+      // TODO: create a reusable "message" for that
+      logger.error(
+        `Multiple endpoints are being assigned to the same route.
+      
+Conflicting endpoints:
+${conflictingEndpoints.join("\n")}
+`
+      );
+    }
+
     const appModule = (endpoints.find((item: any) => item[0] === "_app") ||
       [])[1];
     const routerModule = (endpoints.find(
@@ -67,16 +81,6 @@ export const setRoutes = async (
       try {
         const module = getModule();
         const requestHandler = module.default;
-
-        if (
-          newRouter.stack.find(
-            ({ route }) =>
-              route.path === routeName &&
-              (route.methods[method] || method === "all")
-          )
-        ) {
-          throw "Another endpoint is already assigned to this route.";
-        }
 
         if (fileExtension === "json") {
           newRouter[method](routeName, (req, res) => {

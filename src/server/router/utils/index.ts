@@ -14,7 +14,7 @@ interface Route {
 type Endpoint = [string, string, number?];
 type Endpoints = Endpoint[];
 type CompiledEndpoint = [string, () => any, string];
-type CompiledEndpoints = CompiledEndpoint[];
+export type CompiledEndpoints = CompiledEndpoint[];
 
 const HTTP_METHODS = ["get", "post", "put", "delete", "patch"];
 

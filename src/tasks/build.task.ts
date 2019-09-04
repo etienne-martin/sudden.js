@@ -4,10 +4,8 @@ import { fs, logger, rmRf } from "../utils";
 import { createEntrypoint } from "../build/entrypoint";
 import { build } from "../build/build";
 import { containsTypeScript } from "../build/utils";
-import {
-  convertFileNameToRoute,
-  getCompiledEndpoints
-} from "../server/router/utils";
+import { getCompiledEndpoints } from "../server/router/utils";
+import { findConflictingEndpoints } from "../server/router/utils/route-conflict";
 
 interface BuildTaskOptions {
   runtimeVersion: string;
@@ -48,21 +46,20 @@ export const buildTask = async ({
     throw err;
   }
 
-  // Check for route conflicts
-  const endpoints = await getCompiledEndpoints(outputDir);
-  const registeredEndpoints: {
-    [routeName: string]: string;
-  } = {};
+  const conflictingEndpoints = findConflictingEndpoints(
+    await getCompiledEndpoints(outputDir)
+  );
 
-  for (const [fileName] of endpoints) {
-    const { routeName, method } = convertFileNameToRoute(fileName);
+  if (conflictingEndpoints.length > 0) {
+    // TODO: create a reusable "message" for that
+    logger.error(
+      `Multiple endpoints are being assigned to the same route.
+      
+Conflicting endpoints:
+${conflictingEndpoints.join("\n")}
+`
+    );
 
-    if (registeredEndpoints[routeName]) {
-      if (registeredEndpoints[routeName] === method || method === "all") {
-        throw "Another endpoint is already assigned to this route.";
-      }
-    }
-
-    registeredEndpoints[routeName] = method;
+    return process.exit(1);
   }
 };
