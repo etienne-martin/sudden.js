@@ -61,9 +61,23 @@ export const setRoutes = async (
     for (const [fileName, getModule, fileExtension] of endpoints) {
       const { routeName, method } = convertFileNameToRoute(fileName);
 
+      // Skip private routes
+      if (fileName.startsWith("_")) continue;
+
       try {
         const module = getModule();
         const requestHandler = module.default;
+
+        // TODO: throw error for conflicting endpoints when building the API
+        if (
+          newRouter.stack.find(
+            ({ route }) =>
+              route.path === routeName &&
+              (route.methods[method] || method === "all")
+          )
+        ) {
+          throw "Another endpoint is already assigned to this route.";
+        }
 
         if (fileExtension === "json") {
           newRouter[method](routeName, (req, res) => {
@@ -72,15 +86,6 @@ export const setRoutes = async (
 
           continue;
         }
-
-        // console.log({
-        //   routeName,
-        //   method: method,
-        //   spec: calculateRouteSpecificity(fileName)
-        // });
-
-        // Skip private routes
-        if (fileName.startsWith("_")) continue;
 
         if (typeof requestHandler !== "function") {
           throw "Endpoints must export a request handler function.";
