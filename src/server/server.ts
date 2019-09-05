@@ -11,6 +11,7 @@ import { corsMiddleware } from "./middlewares/cors.middleware";
 import { convertFileNameToRoute, getCompiledEndpoints } from "./router/utils";
 import { logger } from "../utils";
 import { findConflictingEndpoints } from "./router/utils/route-conflict";
+import { getConflictingEndpointsMessage } from "../messages";
 
 interface ServerOptions {
   port?: number;
@@ -50,14 +51,7 @@ export const setRoutes = async (
     const conflictingEndpoints = findConflictingEndpoints(endpoints);
 
     if (conflictingEndpoints.length > 0) {
-      // TODO: create a reusable "message" for that
-      logger.error(
-        `Multiple endpoints are being assigned to the same route.
-      
-Conflicting endpoints:
-${conflictingEndpoints.join("\n")}
-`
-      );
+      logger.error(getConflictingEndpointsMessage(conflictingEndpoints));
     }
 
     const appModule = (endpoints.find((item: any) => item[0] === "_app") ||

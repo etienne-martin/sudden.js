@@ -6,6 +6,10 @@ import { build } from "../build/build";
 import { containsTypeScript } from "../build/utils";
 import { getCompiledEndpoints } from "../server/router/utils";
 import { findConflictingEndpoints } from "../server/router/utils/route-conflict";
+import {
+  getConflictingEndpointsMessage,
+  getMissingEndpointsDirMessage
+} from "../messages";
 
 interface BuildTaskOptions {
   runtimeVersion: string;
@@ -25,7 +29,7 @@ export const buildTask = async ({
   const endpointsDir = path.resolve(sourceDir, "endpoints");
 
   if (!(await fs.exists(endpointsDir))) {
-    throw `Couldn't find a 'endpoints' directory. Please create one under ${sourceDir}`;
+    throw getMissingEndpointsDirMessage(sourceDir);
   }
 
   await rmRf(outputDir);
@@ -51,14 +55,7 @@ export const buildTask = async ({
   );
 
   if (conflictingEndpoints.length > 0) {
-    // TODO: create a reusable "message" for that
-    logger.error(
-      `Multiple endpoints are being assigned to the same route.
-      
-Conflicting endpoints:
-${conflictingEndpoints.join("\n")}
-`
-    );
+    logger.error(getConflictingEndpointsMessage(conflictingEndpoints));
 
     return process.exit(1);
   }

@@ -1,11 +1,9 @@
 import colors from "colors/safe";
 
-import { detectPackageManager } from "../utils";
-
 export const getMissingTypeScriptDependenciesMessage = (
-  missingTypeScriptDependencies: string[]
+  missingTypeScriptDependencies: string[],
+  packageManager: "yarn" | "npm" | null
 ) => {
-  const packageManager = detectPackageManager();
   const installCommand = packageManager === "yarn" ? "yarn add" : "npm install";
 
   return colors.bold(
@@ -37,4 +35,22 @@ export const getCreatedTsconfigMessage = () => {
       )} has been populated with default values.\n`
     )
   );
+};
+
+export const getConflictingEndpointsMessage = (
+  conflictingEndpoints: string[]
+) => {
+  return `Multiple endpoints are being assigned to the same route.
+      
+Conflicting endpoints:
+${conflictingEndpoints.join("\n")}
+`;
+};
+
+export const getMissingEndpointsDirMessage = (sourceDir: string) => {
+  return `Couldn't find a 'endpoints' directory. Please create one under ${sourceDir}`;
+};
+
+export const getTypeScriptDetectedMessage = () => {
+  return `It looks like you're trying to use TypeScript. Restart the server to enable type checking.`;
 };
