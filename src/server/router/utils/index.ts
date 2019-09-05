@@ -31,9 +31,13 @@ export const convertFileNameToRoute = (fileName: string): Route => {
   routeName = `/${routeName}`;
 
   // Convert square brackets params to express params
-  // [userId] to :userId
-  // TODO: support hyphens and dots in named parameters
-  routeName = mapRouteParams(routeName, (match: string) => `(:${match})`);
+  routeName = mapRouteParams(routeName, (param: string) => {
+    // Escape dots and hyphens from param
+    param = param.replace(/\./g, "_DOT_").replace(/-/g, "_HYPHEN_");
+
+    // Wrap param in a non-capturing group
+    return `(?:\:${param})`;
+  });
 
   return {
     routeName,

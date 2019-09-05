@@ -6,6 +6,7 @@ interface RegisteredRoutes {
   fileName: string;
 }
 
+// TODO: support named parameters
 export const findConflictingEndpoints = (endpoints: CompiledEndpoints) => {
   const conflictingEndpoints: string[] = [];
   const registeredRoutes: RegisteredRoutes[] = [];
