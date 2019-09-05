@@ -88,7 +88,21 @@ export const setRoutes = async (
           throw "Endpoints must export a request handler function.";
         }
 
-        newRouter[method](routeName, requestHandler);
+        newRouter[method](routeName, (req, res) => {
+          // Unescape dots and hyphens
+          const params: {
+            [key: string]: any;
+          } = {};
+
+          Object.entries(req.params).map(([key, value]) => {
+            key = key.replace(/_DOT_/g, ".").replace(/_HYPHEN_/g, "-");
+            params[key] = value;
+          });
+
+          req.params = params;
+
+          requestHandler(req, res);
+        });
       } catch (err) {
         logger.error(
           `Unable to set endpoint: ${

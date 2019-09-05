@@ -26,14 +26,14 @@ describe("router utils", () => {
     test("should convert square brackets params to express params", () => {
       expect(convertFileNameToRoute("[slug]")).toEqual({
         method: "all",
-        routeName: "/(:slug)"
+        routeName: "/(?::slug)"
       });
     });
 
     test("should convert square brackets params to express params (multiple params)", () => {
       expect(convertFileNameToRoute("[test]/[test2]")).toEqual({
         method: "all",
-        routeName: "/(:test)/(:test2)"
+        routeName: "/(?::test)/(?::test2)"
       });
     });
 
@@ -48,6 +48,27 @@ describe("router utils", () => {
       expect(convertFileNameToRoute("dummy.GET")).toEqual({
         method: "get",
         routeName: "/dummy"
+      });
+    });
+
+    test("should support prefix and suffix around param", () => {
+      expect(convertFileNameToRoute("test-[test]-test")).toEqual({
+        method: "all",
+        routeName: "/test-(?::test)-test"
+      });
+    });
+
+    test("should escape hyphens in route params", () => {
+      expect(convertFileNameToRoute("[foo-bar]")).toEqual({
+        method: "all",
+        routeName: "/(?::foo_HYPHEN_bar)"
+      });
+    });
+
+    test("should escape dots in route params", () => {
+      expect(convertFileNameToRoute("[foo.bar]")).toEqual({
+        method: "all",
+        routeName: "/(?::foo_DOT_bar)"
       });
     });
   });

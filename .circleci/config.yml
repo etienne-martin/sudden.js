@@ -74,6 +74,7 @@ jobs:
 
       - run:
           name: Publish to NPM
+          # TODO: only publish if the version changed
           command: |
             npm set //registry.npmjs.org/:_authToken=$NPM_TOKEN
             npm publish
