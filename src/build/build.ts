@@ -8,12 +8,13 @@ import { LoggerPlugin } from "./webpack/logger-plugin/logger-plugin";
 import {
   getCreatedTsconfigMessage,
   getMissingTypeScriptDependenciesMessage
-} from "./messages";
+} from "../messages";
 import {
   createTsconfig,
   findMissingTypeScriptDependencies,
   tsconfigExists
 } from "./utils";
+import { detectPackageManager } from "../utils";
 
 interface Logger {
   wait: (...messages: any[]) => void;
@@ -71,7 +72,10 @@ export const build = async ({
 
       if (missingTypeScriptDependencies.length > 0) {
         console.log(
-          getMissingTypeScriptDependenciesMessage(missingTypeScriptDependencies)
+          getMissingTypeScriptDependenciesMessage(
+            missingTypeScriptDependencies,
+            detectPackageManager()
+          )
         );
 
         return process.exit(1);

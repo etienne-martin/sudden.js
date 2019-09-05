@@ -10,6 +10,7 @@ test("should create a build manifest", async done => {
     runtimeVersion: "1.0.0"
   };
 
+  const currentTimestamp = +new Date();
   const outputPath = `/tmp/build-manifest-plugin`;
   const entryFilePath = `${outputPath}/entry.js`;
 
@@ -48,6 +49,8 @@ test("should create a build manifest", async done => {
     }
 
     expect(typeof buildManifest.created).toBe("number");
+    expect(buildManifest.created).toBeGreaterThan(currentTimestamp);
+    expect(buildManifest.created).toBeLessThan(currentTimestamp + 1000);
     expect(buildManifest.hash).toBe("3e26c338dd452d047a8d");
     expect(buildManifest.mode).toBe("production");
     expect(buildManifest.runtimeVersion).toBe("1.0.0");

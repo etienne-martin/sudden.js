@@ -22,10 +22,7 @@ test("logger.ready()", () => {
   const spy = jest.spyOn(console, "log").mockImplementation();
 
   logger.ready("ready message");
-  expect(spy).toHaveBeenCalledWith(
-    colors.green("[ ready ]"),
-    "ready message"
-  );
+  expect(spy).toHaveBeenCalledWith(colors.green("[ ready ]"), "ready message");
 
   spy.mockRestore();
 });
@@ -46,10 +43,7 @@ test("logger.warn()", () => {
   const spy = jest.spyOn(console, "warn").mockImplementation();
 
   logger.warn("warn message");
-  expect(spy).toHaveBeenCalledWith(
-    colors.yellow("[ warn ]"),
-    "warn message"
-  );
+  expect(spy).toHaveBeenCalledWith(colors.yellow("[ warn ]"), "warn message");
 
   spy.mockRestore();
 });

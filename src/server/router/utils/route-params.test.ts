@@ -5,9 +5,9 @@ test("should map through all params", () => {
   const result = mapRouteParams("/test/[param]/[param2]", (match: string) => {
     params.push(match);
 
-    return `:${match}`;
+    return match;
   });
 
-  expect(result).toBe("/test/:param/:param2");
+  expect(result).toBe("/test/param/param2");
   expect(params).toEqual(["param", "param2"]);
 });

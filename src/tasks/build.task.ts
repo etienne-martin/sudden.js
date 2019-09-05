@@ -4,6 +4,12 @@ import { fs, logger, rmRf } from "../utils";
 import { createEntrypoint } from "../build/entrypoint";
 import { build } from "../build/build";
 import { containsTypeScript } from "../build/utils";
+import { getCompiledEndpoints } from "../server/router/utils";
+import { findConflictingEndpoints } from "../server/router/utils/route-conflict";
+import {
+  getConflictingEndpointsMessage,
+  getMissingEndpointsDirMessage
+} from "../messages";
 
 interface BuildTaskOptions {
   runtimeVersion: string;
@@ -23,11 +29,7 @@ export const buildTask = async ({
   const endpointsDir = path.resolve(sourceDir, "endpoints");
 
   if (!(await fs.exists(endpointsDir))) {
-    logger.error(
-      `Couldn't find a 'endpoints' directory. Please create one under ${sourceDir}`
-    );
-
-    return process.exit(1);
+    throw getMissingEndpointsDirMessage(sourceDir);
   }
 
   await rmRf(outputDir);
@@ -46,5 +48,15 @@ export const buildTask = async ({
   } catch (err) {
     await rmRf(outputDir);
     throw err;
+  }
+
+  const conflictingEndpoints = findConflictingEndpoints(
+    await getCompiledEndpoints(outputDir)
+  );
+
+  if (conflictingEndpoints.length > 0) {
+    logger.error(getConflictingEndpointsMessage(conflictingEndpoints));
+
+    return process.exit(1);
   }
 };

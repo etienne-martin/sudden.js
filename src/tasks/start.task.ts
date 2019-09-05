@@ -21,21 +21,13 @@ export const startTask = async ({
     !buildManifest ||
     (buildManifest && buildManifest.mode !== "production")
   ) {
-    logger.error(
-      `Could not find a valid build in the '${outputDir}' directory! Try building your API with 'sudden build' before starting the server.`
-    );
-
-    return process.exit(1);
+    throw `Could not find a valid build in the '${outputDir}' directory! Try building your API with 'sudden build' before starting the server.`;
   }
 
   const buildRuntimeVersion = semVer.parse(buildManifest.runtimeVersion);
 
   if (!buildRuntimeVersion.isCompatibleWith(semVer.parse(runtimeVersion))) {
-    logger.error(
-      `The build version of your API (${buildRuntimeVersion.toString()}) is incompatible with sudden@${runtimeVersion}`
-    );
-
-    return process.exit(1);
+    throw `The build version of your API (${buildRuntimeVersion.toString()}) is incompatible with sudden@${runtimeVersion}`;
   }
 
   await setRoutes(outputDir, () => {

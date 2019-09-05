@@ -8,6 +8,10 @@ import { createEntrypoint } from "../build/entrypoint";
 import { build } from "../build/build";
 import { serve, setRoutes } from "../server/server";
 import { containsTypeScript } from "../build/utils";
+import {
+  getMissingEndpointsDirMessage,
+  getTypeScriptDetectedMessage
+} from "../messages";
 
 interface DevTaskOptions {
   runtimeVersion: string;
@@ -33,11 +37,7 @@ export const devTask = async ({
   logger.wait("starting the development server ...");
 
   if (!(await fs.exists(endpointsDir))) {
-    logger.error(
-      `Couldn't find a 'endpoints' directory. Please create one under ${sourceDir}`
-    );
-
-    return process.exit(1);
+    throw getMissingEndpointsDirMessage(sourceDir);
   }
 
   const hasTypeScript = await containsTypeScript(endpointsDir);
@@ -76,9 +76,7 @@ export const devTask = async ({
     await touch(filePath);
 
     if (!hasTypeScript && filePath.toLowerCase().endsWith(".ts")) {
-      logger.warn(
-        `It looks like you're trying to use TypeScript. Restart the server to enable type checking.`
-      );
+      logger.warn(getTypeScriptDetectedMessage());
     }
   });
 

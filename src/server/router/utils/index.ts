@@ -14,7 +14,7 @@ interface Route {
 type Endpoint = [string, string, number?];
 type Endpoints = Endpoint[];
 type CompiledEndpoint = [string, () => any, string];
-type CompiledEndpoints = CompiledEndpoint[];
+export type CompiledEndpoints = CompiledEndpoint[];
 
 const HTTP_METHODS = ["get", "post", "put", "delete", "patch"];
 
@@ -32,7 +32,8 @@ export const convertFileNameToRoute = (fileName: string): Route => {
 
   // Convert square brackets params to express params
   // [userId] to :userId
-  routeName = mapRouteParams(routeName, (match: string) => `:${match}`);
+  // TODO: support hyphens and dots in named parameters
+  routeName = mapRouteParams(routeName, (match: string) => `(:${match})`);
 
   return {
     routeName,

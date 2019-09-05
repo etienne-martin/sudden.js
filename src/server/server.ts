@@ -10,6 +10,8 @@ import { securityMiddleware } from "./middlewares/security.middleware";
 import { corsMiddleware } from "./middlewares/cors.middleware";
 import { convertFileNameToRoute, getCompiledEndpoints } from "./router/utils";
 import { logger } from "../utils";
+import { findConflictingEndpoints } from "./router/utils/route-conflict";
+import { getConflictingEndpointsMessage } from "../messages";
 
 interface ServerOptions {
   port?: number;
@@ -46,6 +48,12 @@ export const setRoutes = async (
 
     const newRouter = express.Router();
     const endpoints = await getCompiledEndpoints(outputDir);
+    const conflictingEndpoints = findConflictingEndpoints(endpoints);
+
+    if (conflictingEndpoints.length > 0) {
+      logger.error(getConflictingEndpointsMessage(conflictingEndpoints));
+    }
+
     const appModule = (endpoints.find((item: any) => item[0] === "_app") ||
       [])[1];
     const routerModule = (endpoints.find(
@@ -61,20 +69,12 @@ export const setRoutes = async (
     for (const [fileName, getModule, fileExtension] of endpoints) {
       const { routeName, method } = convertFileNameToRoute(fileName);
 
+      // Skip private routes
+      if (fileName.startsWith("_")) continue;
+
       try {
         const module = getModule();
         const requestHandler = module.default;
-
-        // TODO: throw error for conflicting endpoints when building the API
-        if (
-          newRouter.stack.find(
-            ({ route }) =>
-              route.path === routeName &&
-              (route.methods[method] || method === "all")
-          )
-        ) {
-          throw `This route is conflicting with another route.`;
-        }
 
         if (fileExtension === "json") {
           newRouter[method](routeName, (req, res) => {
@@ -83,15 +83,6 @@ export const setRoutes = async (
 
           continue;
         }
-
-        // console.log({
-        //   routeName,
-        //   method: method,
-        //   spec: calculateRouteSpecificity(fileName)
-        // });
-
-        // Skip private routes
-        if (fileName.startsWith("_")) continue;
 
         if (typeof requestHandler !== "function") {
           throw "Endpoints must export a request handler function.";
