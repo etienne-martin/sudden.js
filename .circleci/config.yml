@@ -74,8 +74,7 @@ jobs:
 
       - run:
           name: Publish to NPM
-          command: |
-            sh publish.sh $NPM_TOKEN
+          command: ./publish.sh $NPM_TOKEN
 
 workflows:
   version: 2

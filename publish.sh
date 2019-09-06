@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 # $1 is an npm token
 
 # Exit when any command fail
