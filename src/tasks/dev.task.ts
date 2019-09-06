@@ -56,6 +56,7 @@ export const devTask = async ({
     watch: true,
     onCompilationEnd: async () => await setRoutes(outputDir),
     onError: async err => {
+      // TODO: maybe log the errors via the logger plugin
       if (Array.isArray(err)) {
         err.map(err => logger.error(err));
       } else {

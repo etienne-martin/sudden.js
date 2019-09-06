@@ -29,10 +29,7 @@ test("should log webpack events to the console", async done => {
     ]
   });
 
-  compiler.run(async (err, stats) => {
-    expect(err).toBe(null);
-    expect(stats.hasErrors()).toBe(false);
-
+  compiler.run(async () => {
     expect(spy.mock.calls[0]).toEqual([
       colors.cyan("[ wait ] "),
       "creating an optimized production build ..."
@@ -86,10 +83,7 @@ test("should log failed builds to the console", async done => {
     ]
   });
 
-  compiler.run(async (err, stats) => {
-    expect(err).toBe(null);
-    expect(stats.hasErrors()).toBe(true);
-
+  compiler.run(async () => {
     expect(consoleLogSpy.mock.calls[0]).toEqual([
       colors.cyan("[ wait ] "),
       "compiling ..."
@@ -145,10 +139,7 @@ test("should log failed builds to the console", async done => {
     ]
   });
 
-  compiler.run(async (err, stats) => {
-    expect(err).toBe(null);
-    expect(stats.hasErrors()).toBe(true);
-
+  compiler.run(async () => {
     expect(consoleLogSpy.mock.calls[0]).toEqual([
       colors.cyan("[ wait ] "),
       "creating an optimized production build ..."
@@ -198,10 +189,8 @@ test("should log file changes", async done => {
       aggregateTimeout: 250,
       poll: undefined
     },
-    async (err, stats) => {
+    async () => {
       i++;
-      expect(err).toBe(null);
-      expect(stats.hasErrors()).toBe(false);
 
       if (i === 1) {
         // Trigger file change
@@ -220,4 +209,61 @@ test("should log file changes", async done => {
       }
     }
   );
+});
+
+test("should log warnings to the console", async done => {
+  const consoleLogSpy = jest.spyOn(console, "log").mockImplementation();
+  const spy = jest.spyOn(console, "warn").mockImplementation();
+  const outputPath = `/tmp/logger-plugin`;
+  const entryFilePath = `${outputPath}/entry.js`;
+
+  await rmRf(outputPath);
+  await fs.mkdir(outputPath);
+  await fs.writeFile(entryFilePath, "export default  1;");
+
+  const compiler = webpack({
+    mode: "production",
+    entry: entryFilePath,
+    output: {
+      path: outputPath
+    },
+    resolve: {
+      extensions: [".js"]
+    },
+    module: {
+      rules: [
+        {
+          test: /\.(js)$/,
+          use: [
+            {
+              loader: "babel-loader"
+            },
+            {
+              loader: "eslint-loader",
+              options: {
+                emitWarning: true,
+                emitError: false,
+                configFile: ".eslintrc.js"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    plugins: [
+      new LoggerPlugin({
+        logger: logger
+      })
+    ]
+  });
+
+  compiler.run(async () => {
+    expect(spy.mock.calls[0][0]).toEqual(colors.yellow("[ warn ]"));
+    expect(spy.mock.calls[0][1]).toBeDefined();
+
+    consoleLogSpy.mockRestore();
+    spy.mockRestore();
+
+    done();
+  });
 });
