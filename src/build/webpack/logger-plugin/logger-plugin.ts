@@ -55,6 +55,7 @@ export class LoggerPlugin {
         return logger.info("compiled with errors");
       }
 
+      // TODO: test warnings
       // Compilation warnings
       if (stats.hasWarnings()) {
         logger.warn(stats.compilation.warnings);
