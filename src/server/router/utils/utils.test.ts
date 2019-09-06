@@ -37,14 +37,14 @@ describe("router utils", () => {
       });
     });
 
-    test("should extract method from file name", () => {
+    test("should get method from file name", () => {
       expect(convertFileNameToRoute("dummy.get")).toEqual({
         method: "get",
         routeName: "/dummy"
       });
     });
 
-    test("should extract method from file name (case insensitive)", () => {
+    test("should get method from file name (case insensitive)", () => {
       expect(convertFileNameToRoute("dummy.GET")).toEqual({
         method: "get",
         routeName: "/dummy"

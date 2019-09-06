@@ -6,15 +6,15 @@ const createModule = async (content: number) => {
 };
 
 test("should not pull the module from cache", async () => {
-  jest.resetModules();
-
   await createModule(1);
+
+  jest.resetModules();
 
   expect(noCacheRequire("/tmp/dummy-module")).toBe(1);
 
-  jest.resetModules();
-
   await createModule(2);
+
+  jest.resetModules();
 
   expect(noCacheRequire("/tmp/dummy-module")).toBe(2);
 });

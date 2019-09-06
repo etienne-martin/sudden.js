@@ -33,7 +33,6 @@ export class LoggerPlugin {
       const changedTimes = watcher.mtimes;
 
       Object.keys(changedTimes).forEach(file => {
-        // TODO: output non-absolute path
         logger.event(`file change detected: ${file}`);
       });
     });
@@ -56,6 +55,7 @@ export class LoggerPlugin {
         return logger.info("compiled with errors");
       }
 
+      // TODO: test warnings
       // Compilation warnings
       if (stats.hasWarnings()) {
         logger.warn(stats.compilation.warnings);
