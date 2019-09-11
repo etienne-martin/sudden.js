@@ -3,6 +3,12 @@ import webpack from "webpack";
 import { LoggerPlugin } from "./logger-plugin";
 import { fs, logger, rmRf } from "../../../utils";
 
+beforeAll(async () => {
+  if (!fs.exists("/private")) {
+    await fs.mkdir("/private");
+  }
+});
+
 test("should log webpack events to the console", async done => {
   const consoleLogSpy = jest.spyOn(console, "log").mockImplementation();
   const consoleInfoSpy = jest.spyOn(console, "info").mockImplementation();
