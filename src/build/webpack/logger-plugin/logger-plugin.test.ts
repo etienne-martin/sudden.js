@@ -8,7 +8,7 @@ test("should log webpack events to the console", async done => {
   const consoleInfoSpy = jest.spyOn(console, "info").mockImplementation();
   const consoleWarnSpy = jest.spyOn(console, "warn").mockImplementation();
   const consoleErrorSpy = jest.spyOn(console, "error").mockImplementation();
-  const outputPath = `/tmp/logger-plugin`;
+  const outputPath = `/private/tmp/logger-plugin`;
   const entryFilePath = `${outputPath}/entry.js`;
 
   await rmRf(outputPath);
@@ -51,7 +51,7 @@ test("should log errors to the console", async done => {
   const consoleInfoSpy = jest.spyOn(console, "info").mockImplementation();
   const consoleWarnSpy = jest.spyOn(console, "warn").mockImplementation();
   const consoleErrorSpy = jest.spyOn(console, "error").mockImplementation();
-  const outputPath = `/tmp/logger-plugin`;
+  const outputPath = `/private/tmp/logger-plugin`;
   const entryFilePath = `${outputPath}/entry.js`;
 
   await rmRf(outputPath);
@@ -106,7 +106,7 @@ test("should log errors to the console", async done => {
   const consoleInfoSpy = jest.spyOn(console, "info").mockImplementation();
   const consoleWarnSpy = jest.spyOn(console, "warn").mockImplementation();
   const consoleErrorSpy = jest.spyOn(console, "error").mockImplementation();
-  const outputPath = `/tmp/logger-plugin`;
+  const outputPath = `/private/tmp/logger-plugin`;
   const entryFilePath = `${outputPath}/entry.js`;
 
   await rmRf(outputPath);
@@ -161,7 +161,7 @@ test("should log file changes", async done => {
   const consoleInfoSpy = jest.spyOn(console, "info").mockImplementation();
   const consoleWarnSpy = jest.spyOn(console, "warn").mockImplementation();
   const consoleErrorSpy = jest.spyOn(console, "error").mockImplementation();
-  const outputPath = `/tmp/logger-plugin`;
+  const outputPath = `/private/tmp/logger-plugin`;
   const entryFilePath = `${outputPath}/entry.js`;
 
   await rmRf(outputPath);
@@ -223,7 +223,7 @@ test("should log warnings to the console", async done => {
   const consoleInfoSpy = jest.spyOn(console, "info").mockImplementation();
   const consoleWarnSpy = jest.spyOn(console, "warn").mockImplementation();
   const consoleErrorSpy = jest.spyOn(console, "error").mockImplementation();
-  const outputPath = `/tmp/logger-plugin`;
+  const outputPath = `/private/tmp/logger-plugin`;
   const entryFilePath = `${outputPath}/entry.js`;
 
   await rmRf(outputPath);
