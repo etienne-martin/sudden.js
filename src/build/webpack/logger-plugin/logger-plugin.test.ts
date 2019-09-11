@@ -3,9 +3,14 @@ import webpack from "webpack";
 import { LoggerPlugin } from "./logger-plugin";
 import { fs, logger, rmRf } from "../../../utils";
 
+// Create this folder to run tests in a linux environment
 beforeAll(async () => {
   if (!fs.exists("/private")) {
     await fs.mkdir("/private");
+  }
+
+  if (!fs.exists("/private/tmp")) {
+    await fs.mkdir("/private/tmp");
   }
 });
 
