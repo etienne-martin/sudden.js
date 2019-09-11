@@ -3,6 +3,13 @@ import webpack from "webpack";
 import { LoggerPlugin } from "./logger-plugin";
 import { fs, logger, rmRf } from "../../../utils";
 
+let consoleLogSpy: jest.SpyInstance;
+let consoleInfoSpy: jest.SpyInstance;
+let consoleWarnSpy: jest.SpyInstance;
+let consoleErrorSpy: jest.SpyInstance;
+let outputPath = `/private/tmp/logger-plugin`;
+let entryFilePath = `${outputPath}/entry.js`;
+
 // Create this folder to run tests in a linux environment
 beforeAll(async () => {
   if (!fs.exists("/private")) {
@@ -14,16 +21,24 @@ beforeAll(async () => {
   }
 });
 
-test("should log webpack events to the console", async done => {
-  const consoleLogSpy = jest.spyOn(console, "log").mockImplementation();
-  const consoleInfoSpy = jest.spyOn(console, "info").mockImplementation();
-  const consoleWarnSpy = jest.spyOn(console, "warn").mockImplementation();
-  const consoleErrorSpy = jest.spyOn(console, "error").mockImplementation();
-  const outputPath = `/private/tmp/logger-plugin`;
-  const entryFilePath = `${outputPath}/entry.js`;
+beforeEach(async () => {
+  consoleLogSpy = jest.spyOn(console, "log").mockImplementation();
+  consoleInfoSpy = jest.spyOn(console, "info").mockImplementation();
+  consoleWarnSpy = jest.spyOn(console, "warn").mockImplementation();
+  consoleErrorSpy = jest.spyOn(console, "error").mockImplementation();
 
   await rmRf(outputPath);
   await fs.mkdir(outputPath);
+});
+
+afterEach(() => {
+  consoleLogSpy.mockRestore();
+  consoleInfoSpy.mockRestore();
+  consoleWarnSpy.mockRestore();
+  consoleErrorSpy.mockRestore();
+});
+
+test("should log webpack events to the console", async done => {
   await fs.writeFile(entryFilePath, "export default 1;");
 
   const compiler = webpack({
@@ -48,25 +63,11 @@ test("should log webpack events to the console", async done => {
     expect(consoleWarnSpy.mock.calls).toMatchSnapshot();
     expect(consoleErrorSpy.mock.calls).toMatchSnapshot();
 
-    consoleLogSpy.mockRestore();
-    consoleInfoSpy.mockRestore();
-    consoleWarnSpy.mockRestore();
-    consoleErrorSpy.mockRestore();
-
     done();
   });
 });
 
 test("should log errors to the console", async done => {
-  const consoleLogSpy = jest.spyOn(console, "log").mockImplementation();
-  const consoleInfoSpy = jest.spyOn(console, "info").mockImplementation();
-  const consoleWarnSpy = jest.spyOn(console, "warn").mockImplementation();
-  const consoleErrorSpy = jest.spyOn(console, "error").mockImplementation();
-  const outputPath = `/private/tmp/logger-plugin`;
-  const entryFilePath = `${outputPath}/entry.js`;
-
-  await rmRf(outputPath);
-  await fs.mkdir(outputPath);
   await fs.writeFile(entryFilePath, "import test from 'awdawd';");
 
   const compiler = webpack({
@@ -103,25 +104,11 @@ test("should log errors to the console", async done => {
     expect(consoleWarnSpy.mock.calls).toMatchSnapshot();
     expect(consoleErrorSpy.mock.calls).toMatchSnapshot();
 
-    consoleLogSpy.mockRestore();
-    consoleInfoSpy.mockRestore();
-    consoleWarnSpy.mockRestore();
-    consoleErrorSpy.mockRestore();
-
     done();
   });
 });
 
 test("should log errors to the console", async done => {
-  const consoleLogSpy = jest.spyOn(console, "log").mockImplementation();
-  const consoleInfoSpy = jest.spyOn(console, "info").mockImplementation();
-  const consoleWarnSpy = jest.spyOn(console, "warn").mockImplementation();
-  const consoleErrorSpy = jest.spyOn(console, "error").mockImplementation();
-  const outputPath = `/private/tmp/logger-plugin`;
-  const entryFilePath = `${outputPath}/entry.js`;
-
-  await rmRf(outputPath);
-  await fs.mkdir(outputPath);
   await fs.writeFile(entryFilePath, "import test from 'awdawd';");
 
   const compiler = webpack({
@@ -158,25 +145,11 @@ test("should log errors to the console", async done => {
     expect(consoleWarnSpy.mock.calls).toMatchSnapshot();
     expect(consoleErrorSpy.mock.calls).toMatchSnapshot();
 
-    consoleLogSpy.mockRestore();
-    consoleInfoSpy.mockRestore();
-    consoleWarnSpy.mockRestore();
-    consoleErrorSpy.mockRestore();
-
     done();
   });
 });
 
 test("should log file changes", async done => {
-  const consoleLogSpy = jest.spyOn(console, "log").mockImplementation();
-  const consoleInfoSpy = jest.spyOn(console, "info").mockImplementation();
-  const consoleWarnSpy = jest.spyOn(console, "warn").mockImplementation();
-  const consoleErrorSpy = jest.spyOn(console, "error").mockImplementation();
-  const outputPath = `/private/tmp/logger-plugin`;
-  const entryFilePath = `${outputPath}/entry.js`;
-
-  await rmRf(outputPath);
-  await fs.mkdir(outputPath);
   await fs.writeFile(entryFilePath, "export default 1;");
 
   const compiler = webpack({
@@ -217,11 +190,6 @@ test("should log file changes", async done => {
           expect(consoleWarnSpy.mock.calls).toMatchSnapshot();
           expect(consoleErrorSpy.mock.calls).toMatchSnapshot();
 
-          consoleLogSpy.mockRestore();
-          consoleInfoSpy.mockRestore();
-          consoleWarnSpy.mockRestore();
-          consoleErrorSpy.mockRestore();
-
           done();
         });
       }
@@ -230,15 +198,6 @@ test("should log file changes", async done => {
 });
 
 test("should log warnings to the console", async done => {
-  const consoleLogSpy = jest.spyOn(console, "log").mockImplementation();
-  const consoleInfoSpy = jest.spyOn(console, "info").mockImplementation();
-  const consoleWarnSpy = jest.spyOn(console, "warn").mockImplementation();
-  const consoleErrorSpy = jest.spyOn(console, "error").mockImplementation();
-  const outputPath = `/private/tmp/logger-plugin`;
-  const entryFilePath = `${outputPath}/entry.js`;
-
-  await rmRf(outputPath);
-  await fs.mkdir(outputPath);
   await fs.writeFile(entryFilePath, "export default  1;");
 
   const compiler = webpack({
@@ -282,11 +241,6 @@ test("should log warnings to the console", async done => {
     expect(consoleInfoSpy.mock.calls).toMatchSnapshot();
     expect(consoleWarnSpy.mock.calls).toMatchSnapshot();
     expect(consoleErrorSpy.mock.calls).toMatchSnapshot();
-
-    consoleLogSpy.mockRestore();
-    consoleInfoSpy.mockRestore();
-    consoleWarnSpy.mockRestore();
-    consoleErrorSpy.mockRestore();
 
     done();
   });
