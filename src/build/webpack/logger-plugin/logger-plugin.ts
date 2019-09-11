@@ -49,18 +49,19 @@ export class LoggerPlugin {
       // Compilation errors (missing modules, syntax errors, etc)
       if (stats.hasErrors()) {
         if (mode === "production") {
-          return logger.error(colors.red("Failed to compile."));
+          logger.error(colors.red("Failed to compile."));
+        } else {
+          logger.info("compiled with errors");
         }
-
-        return logger.info("compiled with errors");
+      } // Compilation warnings
+      else if (stats.hasWarnings()) {
+        logger.info("compiled with warnings");
+      } else {
+        logger.ready("compiled successfully");
       }
 
-      // Compilation warnings
-      if (stats.hasWarnings()) {
-        stats.compilation.warnings.map(warning => logger.warn(warning));
-      }
-
-      logger.ready("compiled successfully");
+      stats.compilation.warnings.map(warning => logger.warn(warning));
+      stats.compilation.errors.map(error => logger.error(error));
     });
   }
 }

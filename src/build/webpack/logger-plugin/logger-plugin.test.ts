@@ -1,11 +1,13 @@
 import webpack from "webpack";
-import colors from "colors/safe";
 
 import { LoggerPlugin } from "./logger-plugin";
 import { fs, logger, rmRf } from "../../../utils";
 
 test("should log webpack events to the console", async done => {
-  const spy = jest.spyOn(console, "log").mockImplementation();
+  const consoleLogSpy = jest.spyOn(console, "log").mockImplementation();
+  const consoleInfoSpy = jest.spyOn(console, "info").mockImplementation();
+  const consoleWarnSpy = jest.spyOn(console, "warn").mockImplementation();
+  const consoleErrorSpy = jest.spyOn(console, "error").mockImplementation();
   const outputPath = `/tmp/logger-plugin`;
   const entryFilePath = `${outputPath}/entry.js`;
 
@@ -30,24 +32,25 @@ test("should log webpack events to the console", async done => {
   });
 
   compiler.run(async () => {
-    expect(spy.mock.calls[0]).toEqual([
-      colors.cyan("[ wait ] "),
-      "creating an optimized production build ..."
-    ]);
-    expect(spy.mock.calls[1]).toEqual([
-      colors.green("[ ready ]"),
-      "compiled successfully"
-    ]);
+    expect(consoleLogSpy.mock.calls).toMatchSnapshot();
+    expect(consoleInfoSpy.mock.calls).toMatchSnapshot();
+    expect(consoleWarnSpy.mock.calls).toMatchSnapshot();
+    expect(consoleErrorSpy.mock.calls).toMatchSnapshot();
 
-    spy.mockRestore();
+    consoleLogSpy.mockRestore();
+    consoleInfoSpy.mockRestore();
+    consoleWarnSpy.mockRestore();
+    consoleErrorSpy.mockRestore();
 
     done();
   });
 });
 
-test("should log failed builds to the console", async done => {
+test("should log errors to the console", async done => {
   const consoleLogSpy = jest.spyOn(console, "log").mockImplementation();
   const consoleInfoSpy = jest.spyOn(console, "info").mockImplementation();
+  const consoleWarnSpy = jest.spyOn(console, "warn").mockImplementation();
+  const consoleErrorSpy = jest.spyOn(console, "error").mockImplementation();
   const outputPath = `/tmp/logger-plugin`;
   const entryFilePath = `${outputPath}/entry.js`;
 
@@ -84,25 +87,24 @@ test("should log failed builds to the console", async done => {
   });
 
   compiler.run(async () => {
-    expect(consoleLogSpy.mock.calls[0]).toEqual([
-      colors.cyan("[ wait ] "),
-      "compiling ..."
-    ]);
-
-    expect(consoleInfoSpy.mock.calls[0]).toEqual([
-      colors.white("[ info ] "),
-      "compiled with errors"
-    ]);
+    expect(consoleLogSpy.mock.calls).toMatchSnapshot();
+    expect(consoleInfoSpy.mock.calls).toMatchSnapshot();
+    expect(consoleWarnSpy.mock.calls).toMatchSnapshot();
+    expect(consoleErrorSpy.mock.calls).toMatchSnapshot();
 
     consoleLogSpy.mockRestore();
     consoleInfoSpy.mockRestore();
+    consoleWarnSpy.mockRestore();
+    consoleErrorSpy.mockRestore();
 
     done();
   });
 });
 
-test("should log failed builds to the console", async done => {
+test("should log errors to the console", async done => {
   const consoleLogSpy = jest.spyOn(console, "log").mockImplementation();
+  const consoleInfoSpy = jest.spyOn(console, "info").mockImplementation();
+  const consoleWarnSpy = jest.spyOn(console, "warn").mockImplementation();
   const consoleErrorSpy = jest.spyOn(console, "error").mockImplementation();
   const outputPath = `/tmp/logger-plugin`;
   const entryFilePath = `${outputPath}/entry.js`;
@@ -140,17 +142,14 @@ test("should log failed builds to the console", async done => {
   });
 
   compiler.run(async () => {
-    expect(consoleLogSpy.mock.calls[0]).toEqual([
-      colors.cyan("[ wait ] "),
-      "creating an optimized production build ..."
-    ]);
-
-    expect(consoleErrorSpy.mock.calls[0]).toEqual([
-      colors.red("[ error ]"),
-      colors.red("Failed to compile.")
-    ]);
+    expect(consoleLogSpy.mock.calls).toMatchSnapshot();
+    expect(consoleInfoSpy.mock.calls).toMatchSnapshot();
+    expect(consoleWarnSpy.mock.calls).toMatchSnapshot();
+    expect(consoleErrorSpy.mock.calls).toMatchSnapshot();
 
     consoleLogSpy.mockRestore();
+    consoleInfoSpy.mockRestore();
+    consoleWarnSpy.mockRestore();
     consoleErrorSpy.mockRestore();
 
     done();
@@ -158,7 +157,10 @@ test("should log failed builds to the console", async done => {
 });
 
 test("should log file changes", async done => {
-  const spy = jest.spyOn(console, "log").mockImplementation();
+  const consoleLogSpy = jest.spyOn(console, "log").mockImplementation();
+  const consoleInfoSpy = jest.spyOn(console, "info").mockImplementation();
+  const consoleWarnSpy = jest.spyOn(console, "warn").mockImplementation();
+  const consoleErrorSpy = jest.spyOn(console, "error").mockImplementation();
   const outputPath = `/tmp/logger-plugin`;
   const entryFilePath = `${outputPath}/entry.js`;
 
@@ -199,10 +201,15 @@ test("should log file changes", async done => {
 
       if (i === 2) {
         watcher.close(() => {
-          expect(spy.mock.calls[2][0]).toEqual(colors.magenta("[ event ]"));
-          expect(spy.mock.calls[2][1]).toContain(entryFilePath);
+          expect(consoleLogSpy.mock.calls).toMatchSnapshot();
+          expect(consoleInfoSpy.mock.calls).toMatchSnapshot();
+          expect(consoleWarnSpy.mock.calls).toMatchSnapshot();
+          expect(consoleErrorSpy.mock.calls).toMatchSnapshot();
 
-          spy.mockRestore();
+          consoleLogSpy.mockRestore();
+          consoleInfoSpy.mockRestore();
+          consoleWarnSpy.mockRestore();
+          consoleErrorSpy.mockRestore();
 
           done();
         });
@@ -213,7 +220,9 @@ test("should log file changes", async done => {
 
 test("should log warnings to the console", async done => {
   const consoleLogSpy = jest.spyOn(console, "log").mockImplementation();
-  const spy = jest.spyOn(console, "warn").mockImplementation();
+  const consoleInfoSpy = jest.spyOn(console, "info").mockImplementation();
+  const consoleWarnSpy = jest.spyOn(console, "warn").mockImplementation();
+  const consoleErrorSpy = jest.spyOn(console, "error").mockImplementation();
   const outputPath = `/tmp/logger-plugin`;
   const entryFilePath = `${outputPath}/entry.js`;
 
@@ -258,11 +267,15 @@ test("should log warnings to the console", async done => {
   });
 
   compiler.run(async () => {
-    expect(spy.mock.calls[0][0]).toEqual(colors.yellow("[ warn ]"));
-    expect(spy.mock.calls[0][1]).toBeDefined();
+    expect(consoleLogSpy.mock.calls).toMatchSnapshot();
+    expect(consoleInfoSpy.mock.calls).toMatchSnapshot();
+    expect(consoleWarnSpy.mock.calls).toMatchSnapshot();
+    expect(consoleErrorSpy.mock.calls).toMatchSnapshot();
 
     consoleLogSpy.mockRestore();
-    spy.mockRestore();
+    consoleInfoSpy.mockRestore();
+    consoleWarnSpy.mockRestore();
+    consoleErrorSpy.mockRestore();
 
     done();
   });

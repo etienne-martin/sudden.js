@@ -1,0 +1,142 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should log errors to the console 1`] = `
+Array [
+  Array [
+    "[36m[ wait ] [39m",
+    "compiling ...",
+  ],
+]
+`;
+
+exports[`should log errors to the console 2`] = `
+Array [
+  Array [
+    "[37m[ info ] [39m",
+    "compiled with errors",
+  ],
+]
+`;
+
+exports[`should log errors to the console 3`] = `Array []`;
+
+exports[`should log errors to the console 4`] = `
+Array [
+  Array [
+    "[31m[ error ][39m",
+    [ModuleNotFoundError: Module not found: Error: Can't resolve 'awdawd' in '/private/tmp/logger-plugin'],
+  ],
+]
+`;
+
+exports[`should log errors to the console 5`] = `
+Array [
+  Array [
+    "[36m[ wait ] [39m",
+    "creating an optimized production build ...",
+  ],
+]
+`;
+
+exports[`should log errors to the console 6`] = `Array []`;
+
+exports[`should log errors to the console 7`] = `Array []`;
+
+exports[`should log errors to the console 8`] = `
+Array [
+  Array [
+    "[31m[ error ][39m",
+    "[31mFailed to compile.[39m",
+  ],
+  Array [
+    "[31m[ error ][39m",
+    [ModuleNotFoundError: Module not found: Error: Can't resolve 'awdawd' in '/private/tmp/logger-plugin'],
+  ],
+]
+`;
+
+exports[`should log file changes 1`] = `
+Array [
+  Array [
+    "[36m[ wait ] [39m",
+    "compiling ...",
+  ],
+  Array [
+    "[32m[ ready ][39m",
+    "compiled successfully",
+  ],
+  Array [
+    "[35m[ event ][39m",
+    "file change detected: /private/tmp/logger-plugin/entry.js",
+  ],
+  Array [
+    "[36m[ wait ] [39m",
+    "compiling ...",
+  ],
+  Array [
+    "[32m[ ready ][39m",
+    "compiled successfully",
+  ],
+]
+`;
+
+exports[`should log file changes 2`] = `Array []`;
+
+exports[`should log file changes 3`] = `Array []`;
+
+exports[`should log file changes 4`] = `Array []`;
+
+exports[`should log warnings to the console 1`] = `
+Array [
+  Array [
+    "[36m[ wait ] [39m",
+    "creating an optimized production build ...",
+  ],
+]
+`;
+
+exports[`should log warnings to the console 2`] = `
+Array [
+  Array [
+    "[37m[ info ] [39m",
+    "compiled with warnings",
+  ],
+]
+`;
+
+exports[`should log warnings to the console 3`] = `
+Array [
+  Array [
+    "[33m[ warn ][39m",
+    [ModuleWarning: Module Warning (from ./node_modules/eslint-loader/index.js):
+
+[4m/private/tmp/logger-plugin/entry.js[24m
+  [2m1:16[22m  [31merror[39m  Replace \`·1;\` with \`1;⏎\`  [2mprettier/prettier[22m
+
+[31m[1m✖ 1 problem (1 error, 0 warnings)[22m[39m
+[31m[1m[22m[39m[31m[1m  1 error and 0 warnings potentially fixable with the \`--fix\` option.[22m[39m
+[31m[1m[22m[39m],
+  ],
+]
+`;
+
+exports[`should log warnings to the console 4`] = `Array []`;
+
+exports[`should log webpack events to the console 1`] = `
+Array [
+  Array [
+    "[36m[ wait ] [39m",
+    "creating an optimized production build ...",
+  ],
+  Array [
+    "[32m[ ready ][39m",
+    "compiled successfully",
+  ],
+]
+`;
+
+exports[`should log webpack events to the console 2`] = `Array []`;
+
+exports[`should log webpack events to the console 3`] = `Array []`;
+
+exports[`should log webpack events to the console 4`] = `Array []`;
