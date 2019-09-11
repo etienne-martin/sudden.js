@@ -7,19 +7,8 @@ let consoleLogSpy: jest.SpyInstance;
 let consoleInfoSpy: jest.SpyInstance;
 let consoleWarnSpy: jest.SpyInstance;
 let consoleErrorSpy: jest.SpyInstance;
-let outputPath = `/private/tmp/logger-plugin`;
+let outputPath = `/tmp/logger-plugin`;
 let entryFilePath = `${outputPath}/entry.js`;
-
-// Create this folder to run tests in a linux environment
-beforeAll(async () => {
-  if (!fs.exists("/private")) {
-    await fs.mkdir("/private");
-  }
-
-  if (!fs.exists("/private/tmp")) {
-    await fs.mkdir("/private/tmp");
-  }
-});
 
 beforeEach(async () => {
   consoleLogSpy = jest.spyOn(console, "log").mockImplementation();
