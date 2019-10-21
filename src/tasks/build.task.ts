@@ -55,8 +55,6 @@ export const buildTask = async ({
   );
 
   if (conflictingEndpoints.length > 0) {
-    logger.error(getConflictingEndpointsMessage(conflictingEndpoints));
-
-    return process.exit(1);
+    throw getConflictingEndpointsMessage(conflictingEndpoints);
   }
 };

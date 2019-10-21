@@ -105,9 +105,7 @@ export const setRoutes = async (
         });
       } catch (err) {
         logger.error(
-          `Unable to set endpoint: ${
-            method === "all" ? "" : `${method.toUpperCase()} `
-          }${routeName}
+          `Unable to set endpoint: ${fileName}.${fileExtension}
 `,
           err
         );

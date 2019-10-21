@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should log webpack errors to the console 1`] = `"[31mFailed to compile.[39m"`;
+
+exports[`should log webpack events to the console 1`] = `
+Array [
+  Array [
+    "[36m[ wait ] [39m",
+    "creating an optimized production build ...",
+  ],
+  Array [
+    "[32m[ ready ][39m",
+    "compiled successfully",
+  ],
+]
+`;
+
+exports[`should log webpack events to the console 2`] = `Array []`;
+
+exports[`should log webpack events to the console 3`] = `Array []`;
+
+exports[`should log webpack events to the console 4`] = `Array []`;

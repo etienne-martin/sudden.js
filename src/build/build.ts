@@ -36,7 +36,6 @@ interface BuildOptions {
   logger: Logger;
   watch?: boolean;
   onCompilationEnd?: () => void;
-  onError?: (err: Error | any[]) => void;
 }
 
 export const build = async ({
@@ -49,7 +48,6 @@ export const build = async ({
   typescript,
   logger,
   watch,
-  onError,
   onCompilationEnd
 }: BuildOptions) =>
   new Promise(async (resolve, reject) => {
@@ -162,19 +160,9 @@ export const build = async ({
           aggregateTimeout: 250,
           poll: undefined
         },
-        async (err, stats) => {
+        async err => {
           // Fatal webpack errors (wrong configuration, etc)
-          if (err) {
-            onError && (await onError(err));
-            process.exit(1);
-
-            return;
-          }
-
-          // Compilation errors (missing modules, syntax errors, etc)
-          if (stats.hasErrors()) {
-            onError && (await onError(stats.compilation.errors));
-          }
+          if (err) return reject(err);
 
           onCompilationEnd && (await onCompilationEnd());
           resolve();
@@ -189,9 +177,7 @@ export const build = async ({
       if (err) return reject(err);
 
       // Compilation errors (missing modules, syntax errors, etc)
-      if (stats.hasErrors()) {
-        return reject(stats.compilation.errors);
-      }
+      if (stats.hasErrors()) return reject();
 
       resolve();
     });

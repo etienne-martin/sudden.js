@@ -34,12 +34,7 @@ const sourceDir = getSourceDirFromProjectDirTaskAndArguments(
 );
 
 process.on("unhandledRejection", err => {
-  if (Array.isArray(err)) {
-    err.map(err => logger.error(err));
-  } else {
-    logger.error(err);
-  }
-
+  if (err) logger.error(err);
   process.exit(1);
 });
 

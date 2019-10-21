@@ -54,14 +54,7 @@ export const devTask = async ({
     typescript: hasTypeScript,
     logger,
     watch: true,
-    onCompilationEnd: async () => await setRoutes(outputDir),
-    onError: async err => {
-      if (Array.isArray(err)) {
-        err.map(err => logger.error(err));
-      } else {
-        logger.error(err);
-      }
-    }
+    onCompilationEnd: async () => await setRoutes(outputDir)
   });
 
   const watcher = watch(`${endpointsDir}/**/*.{js,ts,json}`, {

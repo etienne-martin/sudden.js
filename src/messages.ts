@@ -42,8 +42,8 @@ export const getConflictingEndpointsMessage = (
 ) => {
   return `Multiple endpoints are being assigned to the same route.
       
-Conflicting endpoints:
-${conflictingEndpoints.join("\n")}
+${colors.red(colors.bold("Conflicting endpoints:"))}
+${colors.red(conflictingEndpoints.join("\n"))}
 `;
 };
 
