@@ -56,7 +56,7 @@ test("should log webpack events to the console", async done => {
   });
 });
 
-test("should log errors to the console", async done => {
+test("should log webpack errors to the console", async done => {
   await fs.writeFile(entryFilePath, "import test from 'awdawd';");
 
   const compiler = webpack({
@@ -88,16 +88,15 @@ test("should log errors to the console", async done => {
   });
 
   compiler.run(async () => {
-    expect(consoleLogSpy.mock.calls).toMatchSnapshot();
-    expect(consoleInfoSpy.mock.calls).toMatchSnapshot();
-    expect(consoleWarnSpy.mock.calls).toMatchSnapshot();
-    expect(consoleErrorSpy.mock.calls).toMatchSnapshot();
+    expect(consoleErrorSpy.mock.calls[0][1].toString()).toContain(
+      "ModuleNotFoundError: Module not found: Error: Can't resolve 'awdawd' in "
+    );
 
     done();
   });
 });
 
-test("should log errors to the console", async done => {
+test("should log webpack errors to the console", async done => {
   await fs.writeFile(entryFilePath, "import test from 'awdawd';");
 
   const compiler = webpack({
@@ -129,11 +128,10 @@ test("should log errors to the console", async done => {
   });
 
   compiler.run(async () => {
-    expect(consoleLogSpy.mock.calls).toMatchSnapshot();
-    expect(consoleInfoSpy.mock.calls).toMatchSnapshot();
-    expect(consoleWarnSpy.mock.calls).toMatchSnapshot();
-    expect(consoleErrorSpy.mock.calls).toMatchSnapshot();
-
+    expect(consoleErrorSpy.mock.calls[0][1]).toMatchSnapshot();
+    expect(consoleErrorSpy.mock.calls[1][1].toString()).toContain(
+      "ModuleNotFoundError: Module not found: Error: Can't resolve 'awdawd' in "
+    );
     done();
   });
 });
@@ -174,10 +172,11 @@ test("should log file changes", async done => {
 
       if (i === 2) {
         watcher.close(() => {
-          expect(consoleLogSpy.mock.calls).toMatchSnapshot();
-          expect(consoleInfoSpy.mock.calls).toMatchSnapshot();
-          expect(consoleWarnSpy.mock.calls).toMatchSnapshot();
-          expect(consoleErrorSpy.mock.calls).toMatchSnapshot();
+          expect(
+            consoleLogSpy.mock.calls.find(call =>
+              call[1].includes("file change detected: ")
+            )[1]
+          ).toContain("/entry.js");
 
           done();
         });
@@ -186,7 +185,7 @@ test("should log file changes", async done => {
   );
 });
 
-test("should log warnings to the console", async done => {
+test("should log webpack warnings to the console", async done => {
   await fs.writeFile(entryFilePath, "export default  1;");
 
   const compiler = webpack({
@@ -226,11 +225,9 @@ test("should log warnings to the console", async done => {
   });
 
   compiler.run(async () => {
-    expect(consoleLogSpy.mock.calls).toMatchSnapshot();
-    expect(consoleInfoSpy.mock.calls).toMatchSnapshot();
-    expect(consoleWarnSpy.mock.calls).toMatchSnapshot();
-    expect(consoleErrorSpy.mock.calls).toMatchSnapshot();
-
+    expect(consoleWarnSpy.mock.calls[0][1].toString()).toContain(
+      "ModuleWarning: Module Warning (from ./node_modules/eslint-loader/index.js):"
+    );
     done();
   });
 });
