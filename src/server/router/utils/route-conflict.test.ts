@@ -15,3 +15,17 @@ test("should find conflicting endpoints", async () => {
     "index.post.js"
   ]);
 });
+
+// TODO: Implement this test
+test("should find conflicting endpoints with named parameters", async () => {
+  expect(1).toBe(1);
+  // const compiledEndpointsMock: any = [
+  //   ["[userId]", null, "js"],
+  //   ["[postId]", null, "js"]
+  // ];
+  //
+  // expect(await findConflictingEndpoints(compiledEndpointsMock)).toEqual([
+  //   "[userId].js",
+  //   "[postId].js"
+  // ]);
+});

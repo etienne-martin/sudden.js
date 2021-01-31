@@ -19,6 +19,7 @@ module.exports = (env, argv) => {
       rules: [
         {
           test: /\.(js|ts)$/,
+          exclude: [/node_modules/],
           use: [
             {
               loader: "babel-loader",
@@ -43,8 +44,7 @@ module.exports = (env, argv) => {
                 emitError: !IS_DEV
               }
             }
-          ],
-          exclude: [/node_modules/]
+          ]
         }
       ]
     },

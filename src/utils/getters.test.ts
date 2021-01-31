@@ -1,15 +1,15 @@
 import {
-  getArgsFromNodeProcess,
-  getFrameworkDirFromNodeProcess,
-  getOptionsFromNodeProcess,
-  getOutputDirFromProjectDir,
+  getArguments,
+  getFrameworkDir,
+  getOptions,
+  getOutputDir,
   getPortFromOptions,
-  getSourceDirFromProjectDirTaskAndArguments,
-  getTaskFromArguments
-} from "./index.getters";
+  getSourceDir,
+  getTask
+} from "./getters";
 
 test("should get arguments that didn't have an option associated with them", () => {
-  const args = getArgsFromNodeProcess({
+  const args = getArguments({
     argv: [
       "/usr/local/bin/node",
       "/usr/local/bin/sudden",
@@ -23,7 +23,7 @@ test("should get arguments that didn't have an option associated with them", () 
 });
 
 test("should get arguments that have an option associated with them", () => {
-  const options = getOptionsFromNodeProcess({
+  const options = getOptions({
     argv: [
       "/usr/local/bin/node",
       "/usr/local/bin/sudden",
@@ -37,48 +37,39 @@ test("should get arguments that have an option associated with them", () => {
 });
 
 test("should get the output dir", () => {
-  expect(getOutputDirFromProjectDir("/dummy-dir")).toEqual(
-    "/dummy-dir/.sudden"
+  expect(getOutputDir("/dummy-dir")).toEqual("/dummy-dir/.sudden");
+});
+
+test("should get the source dir", () => {
+  expect(getSourceDir("/dummy-dir", "start", ["start"])).toEqual("/dummy-dir");
+});
+
+test("should get the source dir", () => {
+  expect(getSourceDir("/dummy-dir", "build", ["build", "./src"])).toEqual(
+    "/dummy-dir/src"
   );
 });
 
 test("should get the source dir", () => {
-  expect(
-    getSourceDirFromProjectDirTaskAndArguments("/dummy-dir", "start", ["start"])
-  ).toEqual("/dummy-dir");
-});
-
-test("should get the source dir", () => {
-  expect(
-    getSourceDirFromProjectDirTaskAndArguments("/dummy-dir", "build", [
-      "build",
-      "./src"
-    ])
-  ).toEqual("/dummy-dir/src");
-});
-
-test("should get the source dir", () => {
-  expect(
-    getSourceDirFromProjectDirTaskAndArguments("/dummy-dir", undefined, [
-      "./src"
-    ])
-  ).toEqual("/dummy-dir/src");
+  expect(getSourceDir("/dummy-dir", undefined, ["./src"])).toEqual(
+    "/dummy-dir/src"
+  );
 });
 
 test("should get task from arguments", () => {
-  expect(getTaskFromArguments(["start"])).toEqual("start");
+  expect(getTask(["start"])).toEqual("start");
 });
 
 test("should get task from arguments", () => {
-  expect(getTaskFromArguments(["build"])).toEqual("build");
+  expect(getTask(["build"])).toEqual("build");
 });
 
 test("should get task from arguments", () => {
-  expect(getTaskFromArguments(["dev", "./src"])).toEqual("dev");
+  expect(getTask(["dev", "./src"])).toEqual("dev");
 });
 
 test("should default to dev task if not specified", () => {
-  expect(getTaskFromArguments(["./src"])).toEqual("dev");
+  expect(getTask(["./src"])).toEqual("dev");
 });
 
 test("should get port from options", () => {
@@ -95,7 +86,7 @@ test("should get port from options (not specified)", () => {
 
 test("should get framework dir from node process", () => {
   expect(
-    getFrameworkDirFromNodeProcess({
+    getFrameworkDir({
       mainModule: {
         filename: "/Users/test/framework/bin/sudden"
       }
