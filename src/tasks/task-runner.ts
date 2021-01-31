@@ -1,9 +1,9 @@
 import { startTask } from "./start.task";
 import { buildTask } from "./build.task";
 import { devTask } from "./dev.task";
+import { Task } from "../typings/tasks";
 
 interface TaskRunnerOptions {
-  task: string | undefined;
   runtimeVersion: string;
   frameworkDir: string;
   projectDir: string;
@@ -12,18 +12,42 @@ interface TaskRunnerOptions {
   port?: number;
 }
 
-export const taskRunner = async ({
-  task,
-  ...otherOptions
-}: TaskRunnerOptions) => {
+export const taskRunner = async (
+  task: Task | undefined,
+  {
+    outputDir,
+    port,
+    runtimeVersion,
+    frameworkDir,
+    projectDir,
+    sourceDir
+  }: TaskRunnerOptions
+) => {
   switch (task) {
     case "start":
-      await startTask(otherOptions);
+      await startTask({
+        outputDir,
+        port,
+        runtimeVersion
+      });
       break;
     case "build":
-      await buildTask(otherOptions);
+      await buildTask({
+        outputDir,
+        runtimeVersion,
+        frameworkDir,
+        projectDir,
+        sourceDir
+      });
       break;
     default:
-      await devTask(otherOptions);
+      await devTask({
+        runtimeVersion,
+        frameworkDir,
+        projectDir,
+        sourceDir,
+        outputDir,
+        port
+      });
   }
 };

@@ -1,16 +1,17 @@
 import express from "express";
 
 import { taskRunner } from "./tasks/task-runner";
-import { logger, getPackageJson } from "./utils";
 import {
-  getArgsFromNodeProcess,
-  getFrameworkDirFromNodeProcess,
-  getOptionsFromNodeProcess,
-  getOutputDirFromProjectDir,
+  logger,
+  getPackageJson,
+  getArguments,
+  getFrameworkDir,
+  getOptions,
+  getOutputDir,
   getPortFromOptions,
-  getSourceDirFromProjectDirTaskAndArguments,
-  getTaskFromArguments
-} from "./index.getters";
+  getSourceDir,
+  getTask
+} from "./utils";
 
 // Export types
 export type Application = express.Application;
@@ -20,18 +21,14 @@ export type Response = express.Response;
 export type NextFunction = express.NextFunction;
 
 const projectDir = process.cwd();
-const outputDir = getOutputDirFromProjectDir(projectDir);
-const frameworkDir = getFrameworkDirFromNodeProcess(process);
+const outputDir = getOutputDir(projectDir);
+const frameworkDir = getFrameworkDir(process);
 const runtimeVersion = getPackageJson(frameworkDir).version;
-const args = getArgsFromNodeProcess(process);
-const options = getOptionsFromNodeProcess(process);
-const task = getTaskFromArguments(args);
+const args = getArguments(process);
+const options = getOptions(process);
+const task = getTask(args);
 const port = getPortFromOptions(options);
-const sourceDir = getSourceDirFromProjectDirTaskAndArguments(
-  projectDir,
-  task,
-  args
-);
+const sourceDir = getSourceDir(projectDir, task, args);
 
 process.on("unhandledRejection", err => {
   if (err) logger.error(err);
@@ -39,8 +36,7 @@ process.on("unhandledRejection", err => {
 });
 
 (async () => {
-  await taskRunner({
-    task,
+  await taskRunner(task, {
     runtimeVersion,
     frameworkDir,
     projectDir,

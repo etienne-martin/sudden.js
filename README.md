@@ -97,7 +97,7 @@ export default router => {
 
 404s and execeptions are handled gracefully out of the box. Any unexpected error will return a generic 500 error to avoid leaking sensitive information. The actual error will be logged in the console.
 
-## Custom error handling
+## Error handling
 
 You can add your error handler with a special file called `./endpoints/_error.js` as shown below:
 

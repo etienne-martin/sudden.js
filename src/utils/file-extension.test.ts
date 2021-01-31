@@ -1,6 +1,6 @@
 import { getFileExtension } from "./file-extension";
 
-test("should get the extension for filename", () => {
+test("should get the extension from filename", () => {
   expect(getFileExtension("test.txt")).toBe("txt");
   expect(getFileExtension("test.js")).toBe("js");
   expect(getFileExtension("text.test.js")).toBe("js");

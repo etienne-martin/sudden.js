@@ -7,7 +7,6 @@ import { errorLoggerMiddleware } from "./middlewares/error-logger.middleware";
 import { notFoundMiddleware } from "./middlewares/not-found.middleware";
 import { bodyParserMiddleware } from "./middlewares/body-parser.middleware";
 import { securityMiddleware } from "./middlewares/security.middleware";
-import { corsMiddleware } from "./middlewares/cors.middleware";
 import { convertFileNameToRoute, getCompiledEndpoints } from "./router/utils";
 import { logger } from "../utils";
 import { findConflictingEndpoints } from "./router/utils/route-conflict";
@@ -165,9 +164,9 @@ export const serve = async (options: ServerOptions) =>
     const { port = 3000, mode } = options;
 
     app.set("env", mode);
+    app.set("etag", false);
     app.set("json spaces", 2);
     app.disable("x-powered-by");
-    app.use(corsMiddleware);
     app.use(securityMiddleware);
     app.use(cookieParser());
     app.use(bodyParserMiddleware);

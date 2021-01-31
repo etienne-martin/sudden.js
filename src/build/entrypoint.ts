@@ -11,5 +11,5 @@ export const createEntrypoint = async (sourceDir: string) => {
 
   await fs.writeFile(entrypointPath, entrypoint);
 
-  return await fs.realpath(entrypointPath);
+  return fs.realpath(entrypointPath);
 };
